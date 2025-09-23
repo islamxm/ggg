@@ -1,28 +1,19 @@
 import {
-  Typography,
-  Space,
-  Input,
-  Modal,
   Flex,
-  Row,
-  Col,
-  Button,
-  type ModalFuncProps
+  Select,
+  DatePicker
 } from "antd"
-import type { PositionTypes, Ranks } from "@shared/types/common"
-import type { BG_Person, CB_Person, Person } from "@entities/person/model"
+import type { FC } from "react"
 
-const { Title } = Typography
+type Props = {
 
+}
 
-
-export const CbPersonForm = () => {
+export const CbPersonForm:FC<Props> = () => {
   return (
     <Flex vertical gap={10}>
-      <Space.Compact>
-        <Typography.Title level={5}>Ady</Typography.Title>
-        <Input placeholder='Ady' />
-      </Space.Compact>
+      <DatePicker placeholder='Çagyrylan ýyly' picker={'year'}/>
+      <Select placeholder='Çagyrylan möwsümi' options={[{value: 'I', label: 'I'},{value: 'I', label: 'II'}]}/>
     </Flex>
   )
 }
