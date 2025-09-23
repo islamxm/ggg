@@ -1,0 +1,1 @@
+export {SearchPerson} from './ui/SearchPerson/SearchPerson'

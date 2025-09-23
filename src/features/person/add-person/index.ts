@@ -1,0 +1,1 @@
+export { AddPerson } from "./ui/AddPerson/AddPerson";

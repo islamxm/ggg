@@ -1,0 +1,1 @@
+export { DeletePerson } from "./ui/DeletePerson/DeletePerson";
