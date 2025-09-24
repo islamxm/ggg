@@ -1,8 +1,5 @@
 import { Table, Button, Space, Tooltip } from "antd"
-import { type Ranks } from "@shared/types/common"
 import type { FC } from "react"
-import { persons } from '@shared/mock/persons'
-import { ranks } from "@shared/consts/ranks"
 import {
   InfoCircleOutlined,
   PushpinOutlined,
@@ -11,30 +8,18 @@ import {
 } from '@ant-design/icons'
 import { useNavigate } from "react-router"
 import { getAchieveOfUserPage, getDutyOfUserPage, getPersonDetails } from "@shared/config/routeConfig"
+import { useSelector } from "@shared/hooks/useReduxStore"
+import type { TablePersonDataType } from "../../model/types"
+import {personsMap} from '../../lib/personsMap'
 
 const { Column } = Table
 
-const mockData = persons.map(person => ({
-  id: person.id,
-  name: `${person.name.lastName} ${person.name.firstName}`,
-  rank: ranks[person.rank].label
-}))
-
-type DataType = {
-  id: number
-  rank: Ranks
-  name: string
-}
-
-type Props = {
-  data?: Array<any>
-}
-
-export const PersonsTable: FC<Props> = ({ data = mockData }) => {
+export const PersonsTable: FC = () => {
   const navigate = useNavigate()
+  const {persons} = useSelector(s => s.personsReducer)
 
   return (
-    <Table<DataType> dataSource={data} pagination={false} style={{width: '100%'}}>
+    <Table<TablePersonDataType> dataSource={persons.map(personsMap)} pagination={false} style={{width: '100%'}}>
       <Column title='T/b' render={(_,__,index) => index + 1}/>
       <Column dataIndex={'rank'} title='Harby ady' />
       <Column width={'50%'} dataIndex={'name'} title='F.A.A ady' />

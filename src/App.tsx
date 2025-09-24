@@ -1,7 +1,7 @@
 import { ReduxProvider } from './app/providers/redux'
 import { BrowserRouter, Routes, Route } from "react-router";
 import { PageLayout } from '@app/layouts/pageLayout'
-import { getAchievePage, getDutyPage, getHomePage, getSettingsPage } from './shared/config/routeConfig';
+import { getAchieveOfUserPage, getAchievePage, getDutyOfUserPage, getDutyPage, getHomePage, getSettingsPage } from './shared/config/routeConfig';
 
 //PAGES
 import { HomePage } from '@pages/homePage';
@@ -19,10 +19,13 @@ function App() {
       <ReduxProvider>
         <PageLayout>
           <Routes>
+            <Route index element={<HomePage />}></Route>
             <Route path={getHomePage()} element={<HomePage />}></Route>
             <Route path={getSettingsPage()} element={<SettingsPage />}></Route>
             <Route path={getDutyPage()} element={<DutyPage />}></Route>
             <Route path={getAchievePage()} element={<AchievePage />}></Route>
+            <Route path={getDutyOfUserPage(':id')} element={<AchievePage />}></Route>
+            <Route path={getAchieveOfUserPage(':id')} element={<AchievePage />}></Route>
           </Routes>
         </PageLayout>
       </ReduxProvider>

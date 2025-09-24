@@ -6,6 +6,7 @@ import {
   MenuFoldOutlined
 } from '@ant-design/icons';
 import classes from './classes.module.scss'
+import { useInitData } from '../../hooks/useInitData';
 
 const { Header, Sider, Content } = Layout;
 
@@ -16,6 +17,7 @@ export const PageLayout: FC<PropsWithChildren> = ({
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  useInitData()
 
   return (
     <Layout style={{ height: '100%' }}>

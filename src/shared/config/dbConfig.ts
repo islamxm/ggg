@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { type Person } from '@entities/person/model'
+import { type Person } from '@entities/person'
 import { type DefaultListElement, type Regions } from '@shared/types/common';
 
 export const db = new Dexie('gg') as Dexie & {

@@ -1,5 +1,5 @@
-import type { BG_Person, CB_Person } from "@entities/person/model"
-import type { PositionTypes, Ranks } from "@shared/types/common"
+import { personsActions, type BG_Person, type CB_Person } from "@entities/person"
+import type { PositionTypes, Ranks, Regions } from "@shared/types/common"
 import {
   Input,
   Modal,
@@ -9,29 +9,121 @@ import {
   Button,
   Select,
   DatePicker,
+  Form,
+  notification,
   type ModalFuncProps
 } from "antd"
 import { useState, type FC } from "react"
 import { CbPersonForm } from "../CbPersonForm/CbPersonForm"
 import { BgPersonForm } from "../BgPersonForm/BgPersonForm"
 import { regions } from "@shared/consts/regions"
-import { ranks, ranksArray } from "@shared/consts/ranks"
+import { ranksArray } from "@shared/consts/ranks"
+import { addPerson } from "../../model/addPerson"
+import { db } from "@shared/config/dbConfig"
+import classes from './classes.module.scss'
+import { defaultNotificationConfig } from "@shared/config/defaultNotificationConfig"
+import { useDispatch } from "@shared/hooks/useReduxStore"
 
 type Props = ModalFuncProps
 
-export const AddPersonModal: FC<Props> = ({ onCancel, ...props }) => {
+const requiredField = {
+  rules: [{ required: true, message: 'Hökman doldurylmaly meýdan' }]
+}
+
+type BaseInputs = {
+  firstName: string,
+  lastName: string,
+  patronymic: string,
+  rank: Ranks
+  region: Regions
+  dateOfBirth: any
+  positionType: PositionTypes
+
+  part?: 'I' | 'II'
+  year?: number
+
+  dateOfEnlistment?: BG_Person['dateOfEnlistment']
+  phone?: string,
+  adress?: string
+}
+
+export const AddPersonModal: FC<Props> = (props) => {
+  const dispatch = useDispatch()
   const [positionType, setPositionType] = useState<PositionTypes>()
+  const [form] = Form.useForm<BaseInputs>()
+  const [isLoading, setIsLoading] = useState(false)
+  const [api, contextHolder] = notification.useNotification();
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [patronymic, setPatronymic] = useState('')
-  const [rank, setRank] = useState<Ranks>()
-  const [dateOfBirth, setDateOfBirth] = useState()
+  const onAddPerson = (data: BaseInputs) => {
+    const {
+      firstName,
+      lastName,
+      patronymic,
 
-  const [period, setPeriod] = useState<CB_Person['period']>()
-  const [dateOfEnlistment, setDateOfEnlistment] = useState<BG_Person['dateOfEnlistment']>()
-  const [phone, setPhone] = useState('')
-  const [adress, setAdress] = useState('')
+      part,
+      year,
+
+      dateOfEnlistment,
+      phone,
+      adress
+    } = data
+    const name = { firstName, lastName, patronymic }
+
+    setIsLoading(true)
+    if (data.positionType === 'cb' && part && year) {
+      const cbPerson: Omit<CB_Person, 'id'> = {
+        ...data,
+        positionType: 'cb',
+        name,
+        period: { part, year },
+        data: {
+          duties: [],
+          achieves: []
+        }
+      }
+      addPerson(db, cbPerson)
+        .then(id => {
+          api.success(defaultNotificationConfig({ message: 'Täze harby gullukçy goşuldy' }))
+          dispatch(personsActions.addPerson({...cbPerson, id}))
+        })
+        .catch(_ => api.error(defaultNotificationConfig({ message: 'Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň' })))
+        .finally(() => {
+          setIsLoading(false)
+          onCancel()
+        })
+    }
+
+    if (data.positionType === 'bg' && dateOfEnlistment) {
+      const bgPerson: Omit<BG_Person, 'id'> = {
+        ...data,
+        positionType: 'bg',
+        name,
+        dateOfEnlistment,
+        data: {
+          duties: [],
+          achieves: []
+        },
+        phone,
+        adress
+      }
+      addPerson(db, bgPerson)
+        .then(id => {
+          api.success(defaultNotificationConfig({ message: 'Täze harby gullukçy goşuldy' }))
+          dispatch(personsActions.addPerson({...bgPerson, id}))
+        })
+        .catch(_ => api.error(defaultNotificationConfig({ message: 'Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň' })))
+        .finally(() => {
+          setIsLoading(false)
+          onCancel()
+        })
+    }
+  }
+
+  const onCancel = () => {
+    setPositionType(undefined)
+    form.resetFields()
+    props?.onCancel?.()
+  }
 
   return (
     <Modal
@@ -39,53 +131,119 @@ export const AddPersonModal: FC<Props> = ({ onCancel, ...props }) => {
       onCancel={onCancel}
       title={'Täze harby gullukçyny goş'}
       footer={null}
+      className={classes.wrapper}
     >
-      <Flex vertical gap={10}>
-        <Input addonBefore={'Ady'} />
-        <Input addonBefore={'Familiýasy'} />
-        <Input addonBefore={'Atasynyň ady'} />
-        <Select
-          onChange={setPositionType}
-          options={regions.map(region => ({ value: region.value, label: region.label }))}
-          placeholder='Welaýaty'
-        />
-        <DatePicker
-          placeholder="Doglan güni"
-        />
-        <Select
-          onChange={(e: Ranks) => {
-            setPositionType(ranks[e].positionType)
-            setRank(e)
-          }}
-          options={ranksArray.map(rank => ({ value: rank.value, label: rank.label }))}
-          placeholder='Harby ady'
-        />
-
-        {positionType === 'cb' && <CbPersonForm />}
-        {positionType === 'bg' && <BgPersonForm />}
-
-        <Row gutter={[5, 5]}>
-          <Col span={12}>
-            <Button
-              onClick={onCancel}
-              size="large"
+      {contextHolder}
+      <Form
+        form={form}
+        name="add-person"
+        onFinish={onAddPerson}
+      >
+        <Flex vertical gap={10}>
+          <Form.Item
+            className={classes.formItem}
+            name={'positionType'}
+            {...requiredField}
+          >
+            <Select
+              onSelect={e => setPositionType(e)}
+              options={[{ value: 'cb', label: 'Çagyryş boýunça harby gullukçy' }, { value: 'bg', label: 'Borçnama boýunça harby gullukçy' }]}
+              placeholder="Çagyryş boýunça ýa-da borçnama boýunça harby gullukçy"
+            />
+          </Form.Item>
+          <Form.Item
+            {...requiredField}
+            className={classes.formItem}
+            name={'firstName'}
+          >
+            <Input
+              addonBefore={'Ady'} />
+          </Form.Item>
+          <Form.Item
+            {...requiredField}
+            className={classes.formItem}
+            name={'lastName'}
+          >
+            <Input
+              addonBefore={'Familiýasy'} />
+          </Form.Item>
+          <Form.Item
+            className={classes.formItem}
+            name={'patronymic'}
+          >
+            <Input
+              addonBefore={'Atasynyň ady'} />
+          </Form.Item>
+          <Form.Item
+            className={classes.formItem}
+            name={'region'}
+            {...requiredField}
+          >
+            <Select
+              options={regions.map(region => ({ value: region.value, label: region.label }))}
+              placeholder='Welaýaty'
+            />
+          </Form.Item>
+          <Form.Item
+            className={classes.formItem}
+            name={'dateOfBirth'}
+            {...requiredField}
+          >
+            <DatePicker
               style={{ width: '100%' }}
-              variant={'solid'}
-              color={'danger'}>
-              Bes et
-            </Button>
-          </Col>
-          <Col span={12}>
-            <Button 
-              size="large" 
-              style={{ width: '100%' }} 
-              variant="solid" 
-              color="green">
-              Ýatda sakla
-            </Button>
-          </Col>
-        </Row>
-      </Flex>
+              placeholder="Doglan güni"
+            />
+          </Form.Item>
+          {
+            positionType && (
+              <Form.Item
+                className={classes.formItem}
+                name={'rank'}
+                {...requiredField}
+              >
+                <Select
+                  options={ranksArray.filter(rank => rank.positionType === positionType).map(rank => ({ value: rank.value, label: rank.label }))}
+                  placeholder='Harby ady'
+                />
+              </Form.Item>
+            )
+          }
+
+          {positionType === 'cb' &&
+            <CbPersonForm />
+          }
+          {positionType === 'bg' &&
+            <BgPersonForm />
+          }
+          <Row gutter={[5, 5]}>
+            <Col span={12}>
+              <Button
+                onClick={onCancel}
+                size="large"
+                style={{ width: '100%' }}
+                variant={'filled'}
+                color={'danger'}>
+                Bes et
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                className={classes.formItem}
+              >
+                <Button
+                  htmlType={'submit'}
+                  size="large"
+                  style={{ width: '100%' }}
+                  variant="solid"
+                  loading={isLoading}
+                  color="green">
+                  Ýatda sakla
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Flex>
+      </Form>
     </Modal>
   )
 }

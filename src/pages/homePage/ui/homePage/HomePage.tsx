@@ -10,7 +10,6 @@ export const HomePage = () => {
       <Flex gap={10}>
         <SearchPerson />
         <AddPerson />
-
       </Flex>
       <PersonsTable />
     </Flex>

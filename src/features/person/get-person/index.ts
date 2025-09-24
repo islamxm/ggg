@@ -1,0 +1,1 @@
+export { getAllPersons } from "./model/getAllPersons";
