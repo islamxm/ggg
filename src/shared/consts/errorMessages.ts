@@ -1,0 +1,1 @@
+export const ERROR_DEFAULT = 'Ýalňyşlyk ýüze çykdy, täzeden synanşyp görüň'

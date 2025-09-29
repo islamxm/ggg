@@ -13,7 +13,7 @@ export const getSettingsPage = () => '/settings'
 
 export const getDutyOfUserPage = (userId: string) => `${getDutyPage()}/${userId}`
 export const getAchieveOfUserPage = (userId: string) => `${getAchievePage()}/${userId}`  
-export const getPersonDetails = (userId: string) => `/persons/${userId}`
+export const getPersonDetailsPage = (userId: string) => `/persons/${userId}`
 
 export const routesMap:Record<string, Omit<Route, 'path'>> = {
   [getHomePage()]: {id: 1, label: 'Esasy', icon: <HomeOutlined/>},

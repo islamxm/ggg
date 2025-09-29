@@ -6,7 +6,7 @@ import {
   TrophyOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from "react-router"
-import { getAchieveOfUserPage, getDutyOfUserPage, getPersonDetails } from "@shared/config/routeConfig"
+import { getAchieveOfUserPage, getDutyOfUserPage, getPersonDetailsPage } from "@shared/config/routeConfig"
 import type { TablePersonDataType } from "../../model/types"
 import { personsMap } from '../../lib/personsMap'
 import { DeletePersonButtonWithConfirm } from "@features/person/delete-person"
@@ -35,7 +35,7 @@ export const PersonsTable: FC<Props> = ({
           <Space>
             <Tooltip title={'Maglumat'}>
               <Button
-                onClick={() => navigate(getPersonDetails(data.id.toString()))}
+                onClick={() => navigate(getPersonDetailsPage(data.id.toString()))}
                 variant={'outlined'}
                 color={'blue'}
                 icon={<InfoCircleOutlined />}

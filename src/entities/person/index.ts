@@ -11,3 +11,7 @@ export type {
   BG_Person,
   Person
 } from "./model/types";
+
+export { useGetPersonIdFromParams } from "./lib/useGetPersonIdFromParams";
+
+export { PersonCard } from "./ui/PersonCard/PersonCard";

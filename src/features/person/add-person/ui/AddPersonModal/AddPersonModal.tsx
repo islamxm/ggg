@@ -20,7 +20,6 @@ import { ranksArray } from "@shared/consts/ranks"
 import { addPerson } from "../../model/addPerson"
 import { db } from "@shared/config/dbConfig"
 import classes from './classes.module.scss'
-import { defaultNotificationConfig } from "@shared/config/defaultNotificationConfig"
 import { useDispatch } from "@shared/hooks/useReduxStore"
 import {toast} from 'sonner'
 
