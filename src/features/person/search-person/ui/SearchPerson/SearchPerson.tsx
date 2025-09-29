@@ -1,28 +1,33 @@
-import { Input, Dropdown } from 'antd'
-const { Search } = Input
-import { SearchOutlined } from '@ant-design/icons'
-import { useState } from 'react'
-import type { ItemType } from 'antd/es/menu/interface'
-import { usePersonSearch } from '../../hooks/usePersonSearch'
-import { type PersonSearchResulType } from '../../model/types'
+import { Input } from 'antd'
+import { type FC } from 'react'
+import { usePersonSearch } from '../../lib/usePersonSearch'
+import type { Person } from '@entities/person'
 
-export const SearchPerson = () => {
-  const [result, setResult] = useState<Array<PersonSearchResulType>>([])
+type Props = {
+  onChange: (result: Array<Person>) => void
+}
 
+export const SearchPerson: FC<Props> = ({
+  onChange
+}) => {
   const {
     onChangeSearchValue,
-    isLoading
-  } = usePersonSearch()
+    reset,
+    isLoading,
+    setIsLoading
+  } = usePersonSearch(onChange)
 
   return (
-    <Dropdown menu={{items: result}}>
-      <Search
-        placeholder='Harby gullukçyny gözle'
-        size={'large'}
-        allowClear
-        loading={isLoading}
-        onChange={e => onChangeSearchValue(e.target.value)}
-      />
-    </Dropdown>
+    <Input.Search
+      placeholder='Harby gullukçyny gözle'
+      size={'large'}
+      loading={isLoading}
+      allowClear
+      onChange={e => {
+        setIsLoading(true)
+        onChangeSearchValue(e.target.value)
+        if (!e.target.value) { reset() }
+      }}
+    />
   )
 }

@@ -16,7 +16,7 @@ const personsSlice = createSlice({
 
     addPerson: (state, {payload}: PayloadAction<Person>) => {state.persons.push(payload)},
 
-    deletePerson: (state, {payload}: PayloadAction<number>) => {state.persons = state.persons.filter(person => person.id === payload)},
+    deletePerson: (state, {payload}: PayloadAction<number>) => {state.persons = state.persons.filter(person => person.id !== payload)},
 
     initPersons: (state, {payload}: PayloadAction<Array<Person>>) => {state.persons = payload}
     

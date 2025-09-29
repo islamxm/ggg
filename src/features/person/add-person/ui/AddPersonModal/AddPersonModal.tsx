@@ -1,4 +1,4 @@
-import { personsActions, type BG_Person, type CB_Person } from "@entities/person"
+import { type BG_Person, type CB_Person } from "@entities/person"
 import type { PositionTypes, Ranks, Regions } from "@shared/types/common"
 import {
   Input,
@@ -10,7 +10,6 @@ import {
   Select,
   DatePicker,
   Form,
-  notification,
   type ModalFuncProps
 } from "antd"
 import { useState, type FC } from "react"
@@ -23,6 +22,7 @@ import { db } from "@shared/config/dbConfig"
 import classes from './classes.module.scss'
 import { defaultNotificationConfig } from "@shared/config/defaultNotificationConfig"
 import { useDispatch } from "@shared/hooks/useReduxStore"
+import {toast} from 'sonner'
 
 type Props = ModalFuncProps
 
@@ -52,7 +52,6 @@ export const AddPersonModal: FC<Props> = (props) => {
   const [positionType, setPositionType] = useState<PositionTypes>()
   const [form] = Form.useForm<BaseInputs>()
   const [isLoading, setIsLoading] = useState(false)
-  const [api, contextHolder] = notification.useNotification();
 
   const onAddPerson = (data: BaseInputs) => {
     const {
@@ -81,16 +80,19 @@ export const AddPersonModal: FC<Props> = (props) => {
           achieves: []
         }
       }
-      addPerson(db, cbPerson)
-        .then(id => {
-          api.success(defaultNotificationConfig({ message: 'Täze harby gullukçy goşuldy' }))
-          dispatch(personsActions.addPerson({...cbPerson, id}))
-        })
-        .catch(_ => api.error(defaultNotificationConfig({ message: 'Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň' })))
-        .finally(() => {
+      addPerson({
+        db, dispatch, personData: cbPerson,
+        onSuccess() { 
+          toast.success('Täze harby gullukçy goşuldy') 
+        },
+        onError() { 
+          toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň') 
+        },
+        onFinally() {
           setIsLoading(false)
           onCancel()
-        })
+        }
+      })
     }
 
     if (data.positionType === 'bg' && dateOfEnlistment) {
@@ -106,16 +108,18 @@ export const AddPersonModal: FC<Props> = (props) => {
         phone,
         adress
       }
-      addPerson(db, bgPerson)
-        .then(id => {
-          api.success(defaultNotificationConfig({ message: 'Täze harby gullukçy goşuldy' }))
-          dispatch(personsActions.addPerson({...bgPerson, id}))
-        })
-        .catch(_ => api.error(defaultNotificationConfig({ message: 'Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň' })))
-        .finally(() => {
+      addPerson({
+        db, dispatch, personData: bgPerson,
+        onSuccess() { 
+          toast.success('Täze harby gullukçy goşuldy') },
+        onError() { 
+          toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň') 
+        },
+        onFinally() {
           setIsLoading(false)
           onCancel()
-        })
+        }
+      })
     }
   }
 
@@ -133,7 +137,6 @@ export const AddPersonModal: FC<Props> = (props) => {
       footer={null}
       className={classes.wrapper}
     >
-      {contextHolder}
       <Form
         form={form}
         name="add-person"

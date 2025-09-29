@@ -7,6 +7,8 @@ import {
 } from '@ant-design/icons';
 import classes from './classes.module.scss'
 import { useInitData } from '../../hooks/useInitData';
+import { ToastContainer } from '@shared/ui/ToastContainer';
+
 
 const { Header, Sider, Content } = Layout;
 
@@ -21,6 +23,7 @@ export const PageLayout: FC<PropsWithChildren> = ({
 
   return (
     <Layout style={{ height: '100%' }}>
+      <ToastContainer/>
       <Sider className={classes.sider} trigger={null} collapsible collapsed={collapsed}>
         <Navbar />
       </Sider>

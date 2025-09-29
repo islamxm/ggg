@@ -4,28 +4,31 @@ import {
   InfoCircleOutlined,
   PushpinOutlined,
   TrophyOutlined,
-  DeleteOutlined
 } from '@ant-design/icons'
 import { useNavigate } from "react-router"
 import { getAchieveOfUserPage, getDutyOfUserPage, getPersonDetails } from "@shared/config/routeConfig"
-import { useSelector } from "@shared/hooks/useReduxStore"
 import type { TablePersonDataType } from "../../model/types"
-import {personsMap} from '../../lib/personsMap'
-
+import { personsMap } from '../../lib/personsMap'
+import { DeletePersonButtonWithConfirm } from "@features/person/delete-person"
+import type { Person } from "@entities/person"
 const { Column } = Table
 
-export const PersonsTable: FC = () => {
+type Props = {
+  data: Array<Person>
+}
+export const PersonsTable: FC<Props> = ({
+  data
+}) => {
   const navigate = useNavigate()
-  const {persons} = useSelector(s => s.personsReducer)
 
   return (
-    <Table<TablePersonDataType> dataSource={persons.map(personsMap)} pagination={false} style={{width: '100%'}}>
-      <Column title='T/b' render={(_,__,index) => index + 1}/>
+    <Table<TablePersonDataType> dataSource={data.map(personsMap)} pagination={false} style={{ width: '100%' }}>
+      <Column title='T/b' render={(_, __, index) => index + 1} />
       <Column dataIndex={'rank'} title='Harby ady' />
       <Column width={'50%'} dataIndex={'name'} title='F.A.A ady' />
       <Column
         align={'end'}
-        colSpan={2}
+        width={'30%'}
         dataIndex={'action'}
         key={'action'}
         render={(_, data) => (
@@ -54,13 +57,7 @@ export const PersonsTable: FC = () => {
                 icon={<TrophyOutlined />}
               />
             </Tooltip>
-            <Button
-              style={{ width: '100%' }}
-              icon={<DeleteOutlined />}
-              color={'danger'}
-              variant={'solid'}>
-              Poz
-            </Button>
+            <DeletePersonButtonWithConfirm personId={data.id} />
           </Space>
         )}
       />

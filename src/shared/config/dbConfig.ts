@@ -19,7 +19,7 @@ export const db = new Dexie('gg') as Dexie & {
 
 
 db.version(1).stores({
-  persons: '++id',
+  persons: '++id, name.firstName, name.lastName, name.patronymic',
   dutyPositions: '++id',
   recruitRegions: '++id'
 })

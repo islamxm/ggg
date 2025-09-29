@@ -29,13 +29,13 @@ export type PersonBase = {
 } 
 
 export type CB_Person = PersonBase & {
-  period: {year: number, part: 'I' | 'II'},
   positionType: 'cb'
+  period?: {year: number, part: 'I' | 'II'},
 }
 
 export type BG_Person = PersonBase & {
-  dateOfEnlistment: Date
   positionType: 'bg',
+  dateOfEnlistment?: Date
   phone?: string
   adress?: string
 }
