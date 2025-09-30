@@ -9,6 +9,7 @@ import { SettingsPage } from '@pages/settingsPage';
 import { DutyPage } from '@pages/dutyPage';
 import { AchievePage } from '@pages/achievePage';
 import { PersonDetailsPage } from '@pages/personDetailsPage'
+import { DutyDetailsPage } from "@pages/dutyDetailsPage";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
           <Route path={getAchievePage()} element={<AchievePage />}></Route>
 
           <Route path={getPersonDetailsPage(':id')} element={<PersonDetailsPage />}></Route>
-          <Route path={getDutyOfUserPage(':id')} element={<DutyPage />}></Route>
+          <Route path={getDutyOfUserPage(':id')} element={<DutyDetailsPage />}></Route>
           <Route path={getAchieveOfUserPage(':id')} element={<AchievePage />}></Route>
         </Routes>
       </PageLayout>

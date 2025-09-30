@@ -1,7 +1,8 @@
 import type { Person } from "@entities/person"
-import { Button, Flex, Typography } from "antd"
+import { Button, Flex } from "antd"
 import type { FC } from "react"
 import { useNavigate } from 'react-router'
+import { PersonTitle } from "@entities/person"
 
 import {
   PushpinOutlined,
@@ -11,21 +12,20 @@ import { getAchieveOfUserPage, getDutyOfUserPage } from "@shared/config/routeCon
 
 type Props = {
   name: Person['name']
-  id: Person['id']
+  id: Person['id'],
+  rank: Person['rank']
 }
 
 export const PersonTop: FC<Props> = ({
   name,
-  id
+  id,
+  rank
 }) => {
   const navigate = useNavigate()
-  const fullName = `${name.lastName} ${name.firstName} ${name.patronymic}`
 
   return (
     <Flex justify={'space-between'}>
-      <Typography.Title level={2}>
-        {fullName}
-      </Typography.Title>
+      <PersonTitle rank={rank} name={name}/>
       <Flex gap={10}>
         <Button
           onClick={() => navigate(getDutyOfUserPage(id.toString()))}

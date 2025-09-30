@@ -1,0 +1,1 @@
+export { DutyDetailsPage } from "./ui/DutyDetailsPage/DutyDetailsPage";

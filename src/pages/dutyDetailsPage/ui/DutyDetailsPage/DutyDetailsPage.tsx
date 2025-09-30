@@ -1,18 +1,17 @@
-import { personsActions, useGetPersonIdFromParams } from "@entities/person"
-import { useEffect } from "react"
+import { PersonTitle, useGetPersonIdFromParams } from "@entities/person"
 import { Flex } from "antd"
-import { PersonTop } from "../PersonTop/PersonTop"
-import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
+import { useEffect } from "react"
+import { personsActions } from "@entities/person"
 import { getPerson } from "@features/person/get-person"
 import { db } from "@shared/config/dbConfig"
-import { toast } from "sonner"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
-import { PersonInfo } from "../PersonInfo/PersonInfo"
+import { toast } from "sonner"
+import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
 
-export const PersonDetailsPage = () => {
+export const DutyDetailsPage = () => {
   const id = useGetPersonIdFromParams()
   const dispatch = useDispatch()
-  const { currentPerson } = useSelector(s => s.personsReducer)
+  const {currentPerson} = useSelector(s => s.personsReducer)
 
   useEffect(() => {
     if (id) {
@@ -37,9 +36,8 @@ export const PersonDetailsPage = () => {
   }
 
   return (
-    <Flex vertical gap={20}>
-      <PersonTop id={Number(id)} name={currentPerson.name} rank={currentPerson.rank} />
-      <PersonInfo/>
+    <Flex vertical>
+      <PersonTitle rank={currentPerson.rank} name={currentPerson.name} />
     </Flex>
   )
 }

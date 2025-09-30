@@ -15,3 +15,5 @@ export type {
 export { useGetPersonIdFromParams } from "./lib/useGetPersonIdFromParams";
 
 export { PersonCard } from "./ui/PersonCard/PersonCard";
+export { PersonTitle } from "./ui/PersonTitle/PersonTitle";
+

@@ -11,6 +11,7 @@ import type { TablePersonDataType } from "../../model/types"
 import { personsMap } from '../../lib/personsMap'
 import { DeletePersonButtonWithConfirm } from "@features/person/delete-person"
 import type { Person } from "@entities/person"
+import { PersonRank } from "@entities/person/ui/PersonRank/PersonRank"
 const { Column } = Table
 
 type Props = {
@@ -24,7 +25,13 @@ export const PersonsTable: FC<Props> = ({
   return (
     <Table<TablePersonDataType> dataSource={data.map(personsMap)} pagination={false} style={{ width: '100%' }}>
       <Column title='T/b' render={(_, __, index) => index + 1} />
-      <Column dataIndex={'rank'} title='Harby ady' />
+      <Column 
+        dataIndex={'rank'} 
+        title='Harby ady'
+        render={rank => (
+          <PersonRank rank={rank}/>
+        )} 
+        />
       <Column width={'50%'} dataIndex={'name'} title='F.A.A ady' />
       <Column
         align={'end'}
