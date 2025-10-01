@@ -1,9 +1,9 @@
-import type { Ranks, Regions } from "@shared/types/common"
+import type { Duties, Ranks, Regions } from "@shared/types/common"
 
 
 export type Duty = {
   date: Date,
-  dutyId: number,
+  dutyId: Duties,
 }
 
 export type Achieve = {
@@ -22,10 +22,8 @@ export type PersonBase = {
   region: Regions
   dateOfBirth: Date,
 
-  data: {
-    duties: Array<Duty>,
-    achieves: Array<Achieve>,
-  }
+  duties: Array<Duty>,
+  achieves: Array<Achieve>,
 } 
 
 export type CB_Person = PersonBase & {

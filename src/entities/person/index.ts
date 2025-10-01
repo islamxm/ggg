@@ -13,7 +13,7 @@ export type {
 } from "./model/types";
 
 export { useGetPersonIdFromParams } from "./lib/useGetPersonIdFromParams";
-
+export { getFullName } from "./lib/getFullName";
 export { PersonCard } from "./ui/PersonCard/PersonCard";
 export { PersonTitle } from "./ui/PersonTitle/PersonTitle";
 

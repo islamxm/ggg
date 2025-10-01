@@ -74,10 +74,8 @@ export const AddPersonModal: FC<Props> = (props) => {
         positionType: 'cb',
         name,
         period: { part, year },
-        data: {
-          duties: [],
-          achieves: []
-        }
+        duties: [],
+        achieves: []
       }
       addPerson({
         db, dispatch, personData: cbPerson,
@@ -100,10 +98,8 @@ export const AddPersonModal: FC<Props> = (props) => {
         positionType: 'bg',
         name,
         dateOfEnlistment,
-        data: {
-          duties: [],
-          achieves: []
-        },
+        duties: [],
+        achieves: [],
         phone,
         adress
       }
