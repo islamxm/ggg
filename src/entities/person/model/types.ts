@@ -1,10 +1,5 @@
-import type { Duties, Ranks, Regions } from "@shared/types/common"
-
-
-export type Duty = {
-  date: Date,
-  dutyId: Duties,
-}
+import type { CBPeriodPart, Ranks, Regions } from "@shared/types/common"
+import type { DutyItem } from '@entities/duty/@x/person'
 
 export type Achieve = {
   date: Date,
@@ -14,21 +9,21 @@ export type Achieve = {
 export type PersonBase = {
   id: number,
   name: {
-    firstName: string, 
-    lastName: string, 
+    firstName: string,
+    lastName: string,
     patronymic: string
   },
   rank: Ranks
   region: Regions
   dateOfBirth: Date,
 
-  duties: Array<Duty>,
+  duties: Array<DutyItem>,
   achieves: Array<Achieve>,
-} 
+}
 
 export type CB_Person = PersonBase & {
   positionType: 'cb'
-  period?: {year: number, part: 'I' | 'II'},
+  period?: { year: number, part: CBPeriodPart },
 }
 
 export type BG_Person = PersonBase & {

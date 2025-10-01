@@ -1,5 +1,5 @@
 import { PersonTitle, useGetPersonIdFromParams } from "@entities/person"
-import { Flex } from "antd"
+import { Col, Flex, Row } from "antd"
 import { useEffect } from "react"
 import { personsActions } from "@entities/person"
 import { getPerson } from "@features/person/get-person"
@@ -7,6 +7,7 @@ import { db } from "@shared/config/dbConfig"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
 import { toast } from "sonner"
 import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
+import { DutiesSelect } from "../DutiesSelect/DutiesSelect"
 
 export const DutyDetailsPage = () => {
   const id = useGetPersonIdFromParams()
@@ -36,8 +37,9 @@ export const DutyDetailsPage = () => {
   }
 
   return (
-    <Flex vertical>
+    <Flex vertical gap={20}>
       <PersonTitle rank={currentPerson.rank} name={currentPerson.name} />
+      <DutiesSelect/>
     </Flex>
   )
 }

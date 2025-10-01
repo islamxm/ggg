@@ -2,9 +2,9 @@ import { getFullName, type Person } from "@entities/person"
 import { duties } from "@shared/consts/duties"
 import { useSelector } from "@shared/hooks/useReduxStore"
 import type { Duties } from "@shared/types/common"
-import { Flex, Typography, Select, Button } from "antd"
+import { Flex, Typography, Select, Button, Tooltip } from "antd"
 import classes from './classes.module.scss'
-import { PushpinFilled, DeleteOutlined } from '@ant-design/icons'
+import { PushpinFilled, DeleteOutlined, CopyOutlined } from '@ant-design/icons'
 import { red } from '@ant-design/colors'
 import { useEffect, useState, type FC } from "react"
 
@@ -53,14 +53,27 @@ export const DutyItem: FC<Props> = ({
         />
       </Flex>
       <div className={classes.action}>
-        <Button
-          onClick={() => onDelete?.(id)}
-          variant={'solid'}
-          shape={'circle'}
-          color={'danger'}
-        >
-          <DeleteOutlined />
-        </Button>
+        <Flex gap={5}>
+          <Tooltip title='Göçür'>
+            <Button
+              variant={'solid'}
+              shape={'circle'}
+              color={'primary'}
+            >
+              <CopyOutlined />
+            </Button>
+          </Tooltip>
+          <Tooltip title='Ýok et'>
+            <Button
+              onClick={() => onDelete?.(id)}
+              variant={'solid'}
+              shape={'circle'}
+              color={'danger'}
+            >
+              <DeleteOutlined />
+            </Button>
+          </Tooltip>
+        </Flex>
       </div>
 
     </Flex>

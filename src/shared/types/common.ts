@@ -31,6 +31,7 @@ export type RegionsRecord<ValueType> = Record<Regions, ValueType>
 
 export type PositionTypes = 'cb' | 'bg'
 
+export type CBPeriodPart = 'I' | 'II'
 
 export type Duties = 
  | 'hb_nobatcy'

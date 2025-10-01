@@ -13,18 +13,15 @@ import { useDispatch, useSelector } from '@shared/hooks/useReduxStore'
 import type { Dayjs } from 'dayjs';
 import { toast } from 'sonner'
 import { ERROR_DEFAULT } from '@shared/consts/errorMessages'
+import type { DutyCreateType } from '@entities/duty'
 
-type DutyItem = {
-  id: any
-  duty: Duties
-  person?: Person
-}
+
 
 export const DutyPage = () => {
   const dispatch = useDispatch()
   const {persons} = useSelector(s => s.personsReducer)
   const [date, setDate] = useState<Dayjs>()
-  const [dutyList, setDutyList] = useState<Array<DutyItem>>([])
+  const [dutyList, setDutyList] = useState<Array<DutyCreateType>>([])
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -32,7 +29,7 @@ export const DutyPage = () => {
     setDutyList(s => ([...s, ...duties.map(duty => ({id: nanoid(), duty, person: undefined}))]))
   }
 
-  const onDeleteDuty = (id: DutyItem['id']) => {
+  const onDeleteDuty = (id: DutyCreateType['id']) => {
     setDutyList(s => s.filter(d => d.id !== id))
   }
 
@@ -53,7 +50,6 @@ export const DutyPage = () => {
     if(date) {
       setIsLoading(true)
       const duties = dutyList.filter(f => f.person)
-      console.log(duties)
 
       let updates: Array<Promise<any>> = []
   
@@ -82,8 +78,7 @@ export const DutyPage = () => {
         
       })
 
-      Promise.all(updates).then(r => {
-        console.log(r)
+      Promise.all(updates).then(() => {
         toast.success('Täze tabşyryklar goşuldy')
       }).catch(_ => toast.error(ERROR_DEFAULT)).finally(() => {
         setIsLoading(false)
@@ -95,6 +90,10 @@ export const DutyPage = () => {
   const onReset = () => {
     setDate(undefined)
     setDutyList([])
+  }
+
+  const onCopy = () => {
+    
   }
 
   return (
@@ -116,6 +115,7 @@ export const DutyPage = () => {
         {
           dutyList.map(dutyItem => (
             <DutyItem
+              key={dutyItem.id}
               id={dutyItem.id} 
               duty={dutyItem.duty} 
               person={dutyItem.person}
