@@ -5,8 +5,6 @@ import { PlusOutlined } from '@ant-design/icons'
 import { PageTitle } from '@shared/ui/PageTitle'
 import { DutyListModal } from '../DutyListModal/DutyListModal'
 import { useDuty } from '@pages/dutyPage/lib/useDuty'
-import { Reorder } from 'framer-motion'
-import {Sortable} from '@dnd-kit/core'
 
 export const DutyPage = () => {
   const [open, setOpen] = useState(false)
@@ -16,15 +14,14 @@ export const DutyPage = () => {
     isDisabled,
     dutyList,
     setDate,
-    setDutyList,
+    // setDutyList,
     onAddDuty,
     onPersonSelect,
     onDeleteDuty,
     onSaveDutyList,
-    onReset,
-    onCopy
+    // onReset,
+    onCopy,
   } = useDuty()
-
 
   return (
     <Flex gap={20} vertical>
@@ -42,21 +39,19 @@ export const DutyPage = () => {
         placeholder='Tabşyryklaryň senesini saýla'
       />
       <Flex vertical gap={10}>
-        <Reorder.Group axis="y" values={dutyList} onReorder={setDutyList}>
-          {
-            dutyList.map(dutyItem => (
-              <DutyItem
-                key={dutyItem.id}
-                id={dutyItem.id}
-                duty={dutyItem.duty}
-                person={dutyItem.person}
-                onDelete={onDeleteDuty}
-                onPersonSelect={onPersonSelect}
-              />
-            ))
-          }
-        </Reorder.Group>
-
+        {
+          dutyList.map(dutyItem => (
+            <DutyItem
+              key={dutyItem.id}
+              id={dutyItem.id}
+              duty={dutyItem.duty}
+              person={dutyItem.person}
+              onDelete={onDeleteDuty}
+              onPersonSelect={onPersonSelect}
+              onCopy={onCopy}
+            />
+          ))
+        }
         <Flex justify='center' gap={10}>
           <Button
             onClick={onSaveDutyList}
@@ -76,8 +71,6 @@ export const DutyPage = () => {
             Tabşyrygy goş
           </Button>
         </Flex>
-
-        
       </Flex>
     </Flex>
   )

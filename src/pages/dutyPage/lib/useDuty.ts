@@ -9,31 +9,22 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { db } from "@shared/config/dbConfig"
 
-const initData:Array<DutyCreateType> = [
-  {duty: 'batalyon_komekci', id: 1},
-  {duty: 'batalyon_komekci', id: 2},
-  {duty: 'batalyon_komekci', id: 3},
-]
-
 export const useDuty = () => {
   const dispatch = useDispatch()
   const { persons } = useSelector(s => s.personsReducer)
-  const [dutyList, setDutyList] = useState<Array<DutyCreateType>>(initData)
+  const [dutyList, setDutyList] = useState<Array<DutyCreateType>>([])
   const [date, setDate] = useState<Dayjs>()
   const [isLoading, setIsLoading] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
+  const [copied, setCopied] = useState<Omit<DutyCreateType, 'id'>>()
 
   useEffect(() => {
     setIsDisabled(dutyList.length === 0 || !date ? true : false)
   }, [date, dutyList])
 
-  const onAddDuty = (duties: Array<Duties>) => {
-    setDutyList(s => ([...s, ...duties.map(duty => ({ id: nanoid(), duty, person: undefined }))]))
-  }
+  const onAddDuty = (duties: Array<Duties>) => setDutyList(s => ([...s, ...duties.map(duty => ({ id: nanoid(), duty, person: undefined }))]))
 
-  const onDeleteDuty = (id: DutyCreateType['id']) => {
-    setDutyList(s => s.filter(d => d.id !== id))
-  }
+  const onDeleteDuty = (id: DutyCreateType['id']) => setDutyList(s => s.filter(d => d.id !== id))
 
   const onPersonSelect = (dutyId: any, person?: Person) => {
     setDutyList(s => s.map(d => {
@@ -105,11 +96,30 @@ export const useDuty = () => {
 
   const onReset = () => {
     setDate(undefined)
+    setCopied(undefined)
     setDutyList([])
   }
 
-  const onCopy = () => { }
+  const onCopy = (data: Omit<DutyCreateType, 'id'>) => {
+    setCopied(data)
+    toast.info('Tabşyryk göçürildi')
+  }
 
+  const _onPaste = (e: KeyboardEvent) => {
+    if (!copied) return
+    if (e.ctrlKey && e.key === 'v') {
+      e.preventDefault()
+      setDutyList(s => ([...s, { ...copied, id: nanoid() }]))
+      toast.info('Göçürilen tabşyryk goýuldy')
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', _onPaste)
+    return () => {
+      document.removeEventListener('keydown', _onPaste)
+    }
+  }, [copied])
 
   return {
     date,
@@ -117,13 +127,12 @@ export const useDuty = () => {
     isDisabled,
     dutyList,
 
-    setDutyList,
     setDate,
     onAddDuty,
     onPersonSelect,
     onDeleteDuty,
     onSaveDutyList,
     onReset,
-    onCopy
+    onCopy,
   }
 }

@@ -25,7 +25,6 @@ export const DutyListModal: FC<Props> = ({
     onCancel()
   }
 
-
   return (
     <Modal
       {...restProps}
