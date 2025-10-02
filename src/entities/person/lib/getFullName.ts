@@ -5,5 +5,5 @@ export const getFullName = (name: Person['name'], rank: Person['rank'], isShort?
   if(isShort) {
     return `${ranks[rank].short} ${name.firstName[0]} ${name.lastName}`
   }
-  return `${ranks[rank].short}.${name.lastName} ${name.firstName} ${name.patronymic}`
+  return `${ranks[rank].short}.${name.lastName} ${name.firstName}.${name.patronymic}`
 }

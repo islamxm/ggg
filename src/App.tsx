@@ -11,6 +11,7 @@ import { AchievePage } from '@pages/achievePage';
 import { PersonDetailsPage } from '@pages/personDetailsPage'
 import { DutyDetailsPage } from "@pages/dutyDetailsPage";
 
+
 function App() {
 
   return (

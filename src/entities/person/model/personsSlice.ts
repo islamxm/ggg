@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Person } from "./types";
+import type { DutyItem } from "@entities/duty";
 
 type InitialState = {
   persons: Array<Person>,
@@ -29,6 +30,18 @@ const personsSlice = createSlice({
           return payload
         } 
         return person
+      })
+    },
+
+    addDutyOfPerson: (state, {payload}: PayloadAction<{
+      personId: Person['id'],
+      dutyData: {key: string} & DutyItem
+    }>) => {
+      const {key, ...data} = payload.dutyData
+      state.persons.forEach(person => {
+        if(person.id === payload.personId) {
+          person.duties[key].push(data)
+        }
       })
     }
   }

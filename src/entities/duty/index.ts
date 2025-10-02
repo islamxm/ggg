@@ -1,3 +1,4 @@
-export type { Duties, DutyCreateType } from "./model/types";
+export type { Duties, DutyCreateType, DutyItem } from "./model/types";
 export { duties } from "./model/consts";
 export { dutiesArray } from "./model/consts";
+export { getDutyDataKeyFromDate } from "./lib/getDutyDataKeyFromDate";

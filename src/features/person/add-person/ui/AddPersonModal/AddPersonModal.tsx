@@ -74,7 +74,7 @@ export const AddPersonModal: FC<Props> = (props) => {
         positionType: 'cb',
         name,
         period: { part, year },
-        duties: [],
+        duties: {},
         achieves: []
       }
       addPerson({
@@ -98,7 +98,7 @@ export const AddPersonModal: FC<Props> = (props) => {
         positionType: 'bg',
         name,
         dateOfEnlistment,
-        duties: [],
+        duties: {},
         achieves: [],
         phone,
         adress

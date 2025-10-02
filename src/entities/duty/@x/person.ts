@@ -1,1 +1,1 @@
-export type { DutyItem } from "../model/types";
+export type { DutyItem, DutiesData } from "../model/types";

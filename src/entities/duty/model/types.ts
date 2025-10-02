@@ -46,3 +46,5 @@ export type DutyItem = {
   date: Date,
   dutyType: Duties,
 }
+
+export type DutiesData = Record<string, Array<DutyItem>>

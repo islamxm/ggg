@@ -1,6 +1,29 @@
 .wrapper {
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, .2);
-  height: 50px;
   margin: 10px;
+
+  .img {
+    width: 50px;
+    transition: all 0.2s ease;
+  }
+  .label {
+    color: #fff;
+    font-weight: 300;
+    line-height: 100%;
+    font-size: 30px;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    margin-left: 10px;
+  }
+}
+
+.wrapper.min {
+  .img {
+    transform: scale(1.2);
+  }
+  .label {
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+  }
 }
