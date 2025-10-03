@@ -4,7 +4,6 @@ export {
 } from "./model/personsSlice";
 
 export type { 
-  Duty,
   Achieve,
   PersonBase,
   CB_Person,

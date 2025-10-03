@@ -3,12 +3,12 @@ import { routes, routesMap } from '@shared/config/routeConfig'
 import { useLocation, useNavigate } from 'react-router';
 import { Logo } from '../Logo/Logo'
 import { useEffect, useState, type FC } from 'react';
+import { Author } from '../Author/Author';
 
-type Props = SiderProps & {
 
-}
+type Props = SiderProps
 
-export const Navbar:FC<Props> = ({
+export const Navbar: FC<Props> = ({
   collapsed,
 }) => {
   const navigate = useNavigate()
@@ -19,28 +19,31 @@ export const Navbar:FC<Props> = ({
 
   return (
     <Layout.Sider
-      collapsible
       collapsed={collapsed}
-      >
+    >
       <Flex
         vertical
         gap={20}
+        justify={'space-between'}
+        style={{ height: '100%' }}
       >
-        <Logo minimize={collapsed}/>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={selectedKeys}
-          // defaultSelectedKeys={selectedKeys}
-          items={
-            routes.map(({ id, path, label, icon }) => ({
-              onClick: () => navigate(path),
-              key: id,
-              icon,
-              label,
-            }))
-          }
-        />
+        <Flex vertical gap={20}>
+          <Logo minimize={collapsed} />
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={selectedKeys}
+            items={
+              routes.map(({ id, path, label, icon }) => ({
+                onClick: () => navigate(path),
+                key: id,
+                icon,
+                label,
+              }))
+            }
+          />
+        </Flex>
+        {/* <Author /> */}
       </Flex>
     </Layout.Sider>
   )

@@ -9,7 +9,7 @@ export const ProvidersLayout: FC<PropsWithChildren> = ({ children }) => {
       <ReduxProvider>
         <AntConfigProvider
           componentSize="large"
-          >
+        >
           {children}
         </AntConfigProvider>
       </ReduxProvider>

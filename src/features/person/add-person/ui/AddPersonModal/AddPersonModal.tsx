@@ -217,7 +217,6 @@ export const AddPersonModal: FC<Props> = (props) => {
             <Col span={12}>
               <Button
                 onClick={onCancel}
-                size="large"
                 style={{ width: '100%' }}
                 variant={'filled'}
                 color={'danger'}>
@@ -230,7 +229,6 @@ export const AddPersonModal: FC<Props> = (props) => {
               >
                 <Button
                   htmlType={'submit'}
-                  size="large"
                   style={{ width: '100%' }}
                   variant="solid"
                   loading={isLoading}

@@ -1,12 +1,12 @@
 import { Select, type SelectProps } from "antd"
-import { dutiesArray, type Duties } from "@entities/duty"
-import { useEffect, useState, type FC } from "react"
+import { dutiesArray } from "@entities/duty"
+import type { FC } from "react"
 
-const selectOptions: SelectProps['options'] = [{value: 'all', label: 'Hemmesi'}, ...dutiesArray.map(duty => ({value: duty.value, label: duty.label}))]
+const selectOptions = dutiesArray.map(duty => ({value: duty.value, label: duty.label}))
 
 type Props = {
-  value?: Array<unknown>
-  onChange?: (value: unknown) => void
+  value?: any
+  onChange?: DefFunc
 } & Pick<SelectProps, 'style'>
 
 export const DutiesSelect:FC<Props> = ({
@@ -18,8 +18,11 @@ export const DutiesSelect:FC<Props> = ({
   return (
     <Select
       options={selectOptions}
-      mode='multiple'
+      showSearch
       style={style}
+      value={value}
+      onChange={onChange}
+      allowClear
       placeholder='Kalendarda görkezmek üçin tabşyryklary saýla'
       />
   )

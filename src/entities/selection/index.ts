@@ -1,0 +1,1 @@
+export type { SelectionData } from "./model/types";

@@ -6,6 +6,7 @@ import { PageTitle } from '@shared/ui/PageTitle'
 import { DutyListModal } from '../DutyListModal/DutyListModal'
 import { useDuty } from '@pages/dutyPage/lib/useDuty'
 
+
 export const DutyPage = () => {
   const [open, setOpen] = useState(false)
   const {
@@ -14,13 +15,12 @@ export const DutyPage = () => {
     isDisabled,
     dutyList,
     setDate,
-    // setDutyList,
     onAddDuty,
     onPersonSelect,
     onDeleteDuty,
     onSaveDutyList,
-    // onReset,
     onCopy,
+    onCancel
   } = useDuty()
 
   return (
@@ -54,6 +54,20 @@ export const DutyPage = () => {
         }
         <Flex justify='center' gap={10}>
           <Button
+            color='danger'
+            variant='filled'
+            onClick={onCancel}
+            >
+            Bes et
+          </Button>
+          <Button
+            onClick={() => setOpen(true)}
+            color={'primary'}
+            variant={'filled'}>
+            <PlusOutlined />
+            Tabşyrygy goş
+          </Button>
+          <Button
             onClick={onSaveDutyList}
             loading={isLoading}
             variant={'solid'}
@@ -61,14 +75,6 @@ export const DutyPage = () => {
             disabled={isDisabled}
           >
             Ýatda sakla
-          </Button>
-          <Button
-            onClick={() => setOpen(true)}
-            size={'large'}
-            color={'primary'}
-            variant={'filled'}>
-            <PlusOutlined />
-            Tabşyrygy goş
           </Button>
         </Flex>
       </Flex>

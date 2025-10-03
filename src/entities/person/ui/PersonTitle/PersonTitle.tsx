@@ -2,6 +2,7 @@ import type { Person } from "@entities/person/model/types"
 import { Space, Typography } from "antd"
 import type { FC } from "react"
 import { PersonRank } from "../PersonRank/PersonRank"
+import { getFullName } from "@entities/person/lib/getFullName"
 
 type Props = {
   name: Person['name'],
@@ -12,7 +13,7 @@ export const PersonTitle: FC<Props> = ({
   name,
   rank
 }) => {
-  const fullName = `${name.lastName} ${name.firstName} ${name.patronymic}`
+  const fullName = getFullName(name)
 
   return (
     <Space>

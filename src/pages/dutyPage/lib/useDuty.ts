@@ -1,5 +1,5 @@
 import { getDutyDataKeyFromDate, type Duties, type DutyCreateType } from "@entities/duty"
-import { getFullName, type Duty, type Person } from "@entities/person"
+import { getFullName, type Person } from "@entities/person"
 import { updatePerson } from "@features/person/update-person"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
 import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
@@ -8,10 +8,13 @@ import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { db } from "@shared/config/dbConfig"
+import { useNavigate } from "react-router"
+import type { DutyItem } from "@entities/duty"
 
 export const useDuty = () => {
   const dispatch = useDispatch()
   const { persons } = useSelector(s => s.personsReducer)
+  const navigate = useNavigate()
   const [dutyList, setDutyList] = useState<Array<DutyCreateType>>([])
   const [date, setDate] = useState<Dayjs>()
   const [isLoading, setIsLoading] = useState(false)
@@ -53,9 +56,9 @@ export const useDuty = () => {
       const person = persons.find(p => p.id === duty.person?.id)
 
       if (person) {
-        const newDuty: Duty = {
+        const newDuty: DutyItem = {
           date: date.toDate(),
-          dutyId: duty.duty
+          dutyType: duty.duty
         }
 
         let duties = { ...person.duties }
@@ -86,7 +89,7 @@ export const useDuty = () => {
 
     Promise.all(updates).then(() => {
       toast.success('Täze tabşyryklar goşuldy')
-      onReset()
+      _onReset()
     }).catch(_ => toast.error(ERROR_DEFAULT)).finally(() => {
       setIsLoading(false)
     }).finally(() => {
@@ -94,7 +97,7 @@ export const useDuty = () => {
     })
   }
 
-  const onReset = () => {
+  const _onReset = () => {
     setDate(undefined)
     setCopied(undefined)
     setDutyList([])
@@ -114,12 +117,18 @@ export const useDuty = () => {
     }
   }
 
+  const onCancel = () => {
+    _onReset()
+    navigate(-1)
+  }
+
   useEffect(() => {
     document.addEventListener('keydown', _onPaste)
     return () => {
       document.removeEventListener('keydown', _onPaste)
     }
   }, [copied])
+  
 
   return {
     date,
@@ -132,7 +141,7 @@ export const useDuty = () => {
     onPersonSelect,
     onDeleteDuty,
     onSaveDutyList,
-    onReset,
     onCopy,
+    onCancel
   }
 }

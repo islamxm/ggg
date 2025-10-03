@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
 
 import { personsReducer } from '@entities/person'
+import { fractionReducer } from '@entities/fraction'
 
 export const store = configureStore({
   reducer: {
-    personsReducer
+    personsReducer,
+    fractionReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

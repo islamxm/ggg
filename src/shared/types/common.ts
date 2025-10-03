@@ -1,3 +1,4 @@
+import type { CalendarMode } from "antd"
 import type { ReactNode } from "react"
 
 export type DefaultListElement = {
@@ -69,3 +70,5 @@ export type Duties =
  | 'yt'
  | 'na'
  
+
+ export type CalendarModeType = CalendarMode | 'date'

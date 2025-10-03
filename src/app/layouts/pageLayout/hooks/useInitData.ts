@@ -4,6 +4,8 @@ import { personsActions } from "@entities/person"
 import { getAllPersons } from '@features/person/get-person'
 import { useEffect } from "react"
 import { toast } from 'sonner'
+import { fractionActions } from "@entities/fraction"
+import { getAllFractions } from "@features/fraction/get-fraction"
 
 export const useInitData = () => {
   const dispatch = useDispatch()
@@ -12,12 +14,23 @@ export const useInitData = () => {
     getAllPersons({
       db,
       onSuccess(persons) {
-        toast.success('Maglumatlar bazasy ýüklendi')
+        toast.success('Harby gullukçylaryň bazasy ýüklendi')
         dispatch(personsActions.initPersons(persons))
       },
       onError() {
-        toast.error('Maglumatlar bazasyny ýüklemekde näsazlyklar ýüze çykdy')
+        toast.error('Harby gullukçylaryň bazasyny ýüklemekde näsazlyklar ýüze çykdy')
       },
     })
+    getAllFractions({
+      db,
+      onSuccess(fractions) {
+        toast.success('Bölümçeleriň bazasy ýüklendi')
+        dispatch(fractionActions.initFractions(fractions))
+      },
+      onError() {
+        toast.error('Harby gullukçylaryň bazasyny ýüklemekde näsazlyklar ýüze çykdy')
+      }
+    })
+
   }, [])
 }

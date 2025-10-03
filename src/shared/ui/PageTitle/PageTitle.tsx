@@ -13,8 +13,8 @@ export const PageTitle: FC<Props> = ({
   hintContent
 }) => {
   return (
-    <Space>
-      <Typography.Title>
+    <Space align={'center'}>
+      <Typography.Title style={{margin: 0}}>
         {children}
       </Typography.Title>
       <Tooltip
