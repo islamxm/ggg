@@ -1,11 +1,11 @@
-type Deviation = '+' | '-'
+export type Deviation = '+' | '-'
 
-type Selection = {
+export type Selection = {
   deviation: Deviation,
   description?: string
 }
 
-type DaySelection = {
+export type DaySelection = {
   day: number,
   selection: Array<Selection>
 }

@@ -49,12 +49,15 @@ export const DutyDetailsPage = () => {
         } else {
           setData(d)
         }
-      } 
-      if(mode === 'year') {
+      }
+      if (mode === 'year') {
         const d = Object.entries(currentPerson.duties)
         const year = date.slice(3, date.length)
-        const dd = d.filter(([y, d]) => y.slice(3, y.length) === year).map(([y, d]) => d).flat()
-        setData(dd)
+        const dd = d.filter(([y]) => y.slice(3, y.length) === year).map(([_, d]) => d).flat()
+        if (selectedDuties) {
+          setData(dd.filter(d => d.dutyType === selectedDuties))
+        } else setData(dd)
+
       }
     }
   }, [date, selectedDuties, currentPerson, mode])

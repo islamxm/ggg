@@ -1,5 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Fraction } from "./types";
+import type { Selection, SelectionData } from "@entities/selection";
+import type {Dayjs} from 'dayjs'
 
 type InitialState = {
   fractions: Array<Fraction>
@@ -21,6 +23,10 @@ const fractionSlice = createSlice({
     },
     deleteFraction: (state, {payload}: PayloadAction<number>) => {
       state.fractions = state.fractions.filter(f => f.id !== payload)
+    },
+    updateFractionSelection: (state, {payload}: PayloadAction<{fractionId: number, selection: SelectionData}>) => {
+      const index = state.fractions.findIndex(f => f.id === payload.fractionId)
+      state.fractions[index].selection = payload.selection
     }
   }
 })

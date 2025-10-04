@@ -1,1 +1,2 @@
-export type { SelectionData } from "./model/types";
+export type { SelectionData, DaySelection, Selection } from "./model/types";
+export { SelectionDayIndicator } from "./ui/SelectionDayIndicator/SelectionDayIndicator";
