@@ -1,7 +1,5 @@
 import { Button, DatePicker, Flex } from "antd"
-import { useEffect, useState, type FC } from "react"
-import dayjs from 'dayjs'
-import type { Dayjs } from "dayjs"
+import { type FC } from "react"
 import type { DateType } from "@pages/selectionPage/model/types"
 
 type Props = {

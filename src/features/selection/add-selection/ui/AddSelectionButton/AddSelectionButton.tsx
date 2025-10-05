@@ -2,8 +2,11 @@ import { Button, Tooltip, type ButtonProps } from "antd"
 import { useState, type FC } from "react"
 import { PlusOutlined } from '@ant-design/icons'
 import { AddSelectionModal } from "../AddSelectionModal/AddSelectionModal"
+import type {Dayjs} from 'dayjs'
+
 type Props = ButtonProps & {
-  fractionId: number
+  fractionId: number,
+  initDate: Dayjs
 }
 
 const defaultProps: ButtonProps = {
@@ -15,6 +18,7 @@ const defaultProps: ButtonProps = {
 
 export const AddSelectionButton: FC<Props> = ({
   fractionId,
+  initDate,
   ...props
 }) => {
   const [open, setOpen] = useState(false)
@@ -25,6 +29,7 @@ export const AddSelectionButton: FC<Props> = ({
         open={open}
         onCancel={() => setOpen(false)}
         fractionId={fractionId}
+        initDate={initDate}
       />
       <Tooltip
         title='Bellik goş'

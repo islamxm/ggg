@@ -2,7 +2,7 @@ import type { Deviation } from "@entities/selection/model/types"
 import { dangerBtnDefProps } from "@shared/config/dangerBtnDefProps"
 import { successBtnDefProps } from "@shared/config/successBtnDefProps"
 import { Button, Col, Flex, Modal, Row, type ModalFuncProps, Input, Form, DatePicker } from "antd"
-import { useState, type FC } from "react"
+import { useEffect, useState, type FC } from "react"
 import { useAddSelection } from "../../lib/useAddSelection"
 import type { Dayjs } from 'dayjs'
 import { addSelection } from "../../model/addSelection"
@@ -18,10 +18,12 @@ type FormType = {
 
 type Props = ModalFuncProps & {
   fractionId: number,
+  initDate: Dayjs
 }
 
 export const AddSelectionModal: FC<Props> = ({
   fractionId,
+  initDate,
   ...props
 }) => {
   const dispatch = useDispatch()
@@ -29,6 +31,12 @@ export const AddSelectionModal: FC<Props> = ({
   const [form] = Form.useForm<FormType>()
   const [isLoading, setIsLoading] = useState(false)
   const { getReadyToAddSelectionData } = useAddSelection()
+
+  useEffect(() => {
+    if(initDate) {
+      form.setFieldValue('date', initDate)
+    }
+  }, [initDate])
 
   const onCancel = () => {
     form.resetFields()

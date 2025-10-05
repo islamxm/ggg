@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 import dayjs from "dayjs"
 import type { DateType, SelectionTableDataType } from "@pages/selectionPage/model/types"
 
-
 export const SelectionPage = () => {
   const { fractions } = useSelector(s => s.fractionReducer)
   const [data, setData] = useState<SelectionTableDataType>([])

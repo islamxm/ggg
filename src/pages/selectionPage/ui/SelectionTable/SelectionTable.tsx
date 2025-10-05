@@ -15,9 +15,7 @@ export const SelectionTable: FC<Props> = ({
   data,
   date
 }) => {
-
   const daysInMonth = new Array(date.date.daysInMonth()).fill(() => 1).map((_, index) => index + 1)
-
 
   return (
     <Table<SelectionTableDataType[0]>
@@ -31,7 +29,7 @@ export const SelectionTable: FC<Props> = ({
         dataIndex={'shortLabel'}
         fixed
         render={(v, d) => (
-          <AddSelectionButton fractionId={d.id}>{v}</AddSelectionButton>
+          <AddSelectionButton initDate={date.date} fractionId={d.id}>{v}</AddSelectionButton>
         )}
       />
       {
