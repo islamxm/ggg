@@ -1,8 +1,15 @@
 export { fractionActions, fractionReducer } from "./model/fractionSlice";
-export type { NewFractionData, Fraction } from "./model/types";
+export type { Fraction } from "./model/types";
 
+
+//REDUX
 export {
   selectFractionById,
   selectAllFractions,
-  selectFractionIds
+  selectFractionIds,
+  deleteFractionAndDepData
 } from "./model/fractionSlice";
+
+//CRUD
+export { addFraction } from "./api/addFraction";
+export { deleteFraction } from "./api/deleteFraction";

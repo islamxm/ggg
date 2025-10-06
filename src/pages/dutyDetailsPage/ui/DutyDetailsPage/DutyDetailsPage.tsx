@@ -1,39 +1,35 @@
 import { PersonTitle, useGetPersonIdFromParams } from "@entities/person"
+import { personsActions } from "@entities/person"
 import { Flex } from "antd"
 import { useEffect, useState } from "react"
-import { personsActions } from "@entities/person"
-import { getPerson } from "@features/person/get-person"
 import { db } from "@shared/config/dbConfig"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
 import { toast } from "sonner"
 import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
 import { DutiesSelect } from "../DutiesSelect/DutiesSelect"
-import type { Duties, DutyItem } from "@entities/duty"
+import { getDutiesByPersonAndDate, type Duties, type Duty } from "@entities/duty"
 import { DutiesCalendar } from "../DutiesCalendar/DutiesCalendar"
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import type { CalendarMode } from "antd"
+import { getPerson } from "@entities/person"
 
 export const DutyDetailsPage = () => {
   const id = useGetPersonIdFromParams()
   const dispatch = useDispatch()
   const { currentPerson } = useSelector(s => s.personsReducer)
   const [selectedDuties, setSelectedDuties] = useState<Duties>()
-  const [date, setDate] = useState<string>(dayjs().format('MM.YYYY'))
+  const [date, setDate] = useState<Dayjs>(dayjs())
   const [mode, setMode] = useState<CalendarMode>('month')
-  const [data, setData] = useState<Array<DutyItem>>([])
+  const [data, setData] = useState<Array<Duty>>([])
 
   useEffect(() => {
     if (id) {
       getPerson({
         db,
         personId: Number(id),
-        onSuccess(person) {
-          dispatch(personsActions.updateCurrentPerson(person))
-        },
-        onError() {
-          toast.error(ERROR_DEFAULT)
-        },
       })
+        .then(person => dispatch(personsActions.updateCurrentPerson(person)))
+        .catch(() => toast.error(ERROR_DEFAULT))
     }
     return () => {
       dispatch(personsActions.updateCurrentPerson(undefined))
@@ -42,25 +38,27 @@ export const DutyDetailsPage = () => {
 
   useEffect(() => {
     if (date && currentPerson) {
-      if (mode === 'month') {
-        const d = currentPerson.duties[date] ?? []
-        if (selectedDuties) {
-          setData(d.filter(p => p.dutyType === selectedDuties))
-        } else {
-          setData(d)
+      getDutiesByPersonAndDate({
+        db,
+        data: {
+          dateMode: mode,
+          date,
+          personId: currentPerson.id
         }
-      }
-      if (mode === 'year') {
-        const d = Object.entries(currentPerson.duties)
-        const year = date.slice(3, date.length)
-        const dd = d.filter(([y]) => y.slice(3, y.length) === year).map(([_, d]) => d).flat()
-        if (selectedDuties) {
-          setData(dd.filter(d => d.dutyType === selectedDuties))
-        } else setData(dd)
-
-      }
+      })
+        .then(res => {
+          if (selectedDuties) {
+            setData(res.duties.filter(duty => duty.dutyType === selectedDuties))
+          } else setData(res.duties) 
+          
+        })
+        .catch(() => {
+          toast.error(ERROR_DEFAULT)
+        })
     }
   }, [date, selectedDuties, currentPerson, mode])
+
+  useEffect(() => console.log(data.map(d => d.dutyType)), [data])
 
   if (!currentPerson) return null
 
@@ -72,7 +70,7 @@ export const DutyDetailsPage = () => {
         mode={mode}
         onModeChange={setMode}
         data={data}
-        value={dayjs(date, 'MM.YYYY')}
+        value={date}
         onChange={setDate}
       />
     </Flex>

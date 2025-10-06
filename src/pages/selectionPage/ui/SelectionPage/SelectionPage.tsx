@@ -11,6 +11,7 @@ import { addSelection } from "@entities/selection"
 import { type Selection } from "@entities/selection"
 import type { SelectionsOfFraction } from "@entities/selection"
 import { selectAllFractions } from "@entities/fraction"
+import { getSelectionsFromFractionAndDate } from "@entities/selection/api/getSelectionsFromFractionAndDate"
 
 export const SelectionPage = () => {
   const dispatch = useDispatch()
@@ -22,35 +23,36 @@ export const SelectionPage = () => {
 
   const [data, setData] = useState<Array<SelectionsOfFraction>>([])
 
-  const getData = () => {
+
+  useEffect(() => {
     const { date, mode } = dateValue
     if (fractions.length === 0) return
 
     if (mode === 'month') {
-      // Promise.all(fractions.map(fraction => getSelectionsFromFractionAndDate({
-      //   db,
-      //   data: {
-      //     dateMode: mode,
-      //     date,
-      //     fractionId: fraction.id
-      //   }
-      // })))
-      //   .then((res) => {
-      //     setData(res)
-      //   })
+
+      Promise.all(fractions.map(fraction => getSelectionsFromFractionAndDate({
+        db,
+        data: {
+          dateMode: mode,
+          date,
+          fractionId: fraction.id
+        }
+      })))
+        .then((res) => {
+          console.log(res)
+          setData(res)
+        })
     }
     if (mode === 'year') {
 
     }
-  }
-
-  useEffect(getData, [dateValue, fractions])
+  }, [dateValue, fractions])
 
   const _addSelection = () => {
     const selection: Omit<Selection, 'id'> = {
-      fractionId: 2,
-      date: dayjs('10.01.2025').toDate(),
-      deviation: '+',
+      fractionId: 1,
+      date: dayjs('11.01.2025').toDate(),
+      deviation: '-',
       description: 'test test'
     }
 
@@ -65,7 +67,7 @@ export const SelectionPage = () => {
     <Flex vertical gap={20}>
       <Flex gap={5} justify={'space-between'} align={'center'}>
         <PageTitle hintContent='Seljermeler sahypasy'>Seljerme</PageTitle>
-        {/* <button onClick={_addSelection}>test add selection</button> */}
+        <button onClick={_addSelection}>test add selection</button>
         <SelectionDate
           date={dateValue}
           onDateChange={setDateValue}

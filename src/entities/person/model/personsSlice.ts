@@ -25,7 +25,7 @@ const personsSlice = createSlice({
       personsAdapter.setAll(state, payload)
     },
 
-    updateCurrentPerson: (state, {payload}: PayloadAction<Person>) => {
+    updateCurrentPerson: (state, {payload}: PayloadAction<Person | undefined>) => {
       state.currentPerson = payload
     },
   }

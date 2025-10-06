@@ -15,3 +15,5 @@ export {
 
 //CRUD
 export { addDuties } from "./api/addDuties";
+export { getDutiesByPersonAndDate } from "./api/getDutiesByPersonAndDate";
+export { deleteDuty } from "./api/deleteDuty";

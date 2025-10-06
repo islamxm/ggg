@@ -18,7 +18,11 @@ export const useInitData = () => {
         dispatch(personsActions.init(res))
       })
       .catch(defaultErrorNotification)
-
+    getAllFractions({ db })
+      .then(res => {
+        toast.success('Bölümçeleriň bazasy ýüklendi')
+        dispatch(fractionActions.init(res))
+      })
     // getAllFractions({ db })
     //   .then(res => {
     //     toast.success('Bölümçeleriň bazasy ýüklendi')

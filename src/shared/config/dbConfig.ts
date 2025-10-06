@@ -33,7 +33,7 @@ db.version(1).stores({
   recruitRegions: '++id',
   fractions: '++id',
   selections: '++id, date, fractionId',
-  duties: '++id, date, dutyType'
+  duties: '++id, date, dutyType, personId'
 })
 
 export type DBType = typeof db

@@ -1,5 +1,5 @@
-import type { SelectionDateMode } from "@entities/selection"
-import { getDateRange } from "@entities/selection/lib/getDateRange"
+import type { DateMode } from "@shared/types/common"
+import { getDateRange } from "@shared/lib/getDateRange"
 import type { DBType } from "@shared/config/dbConfig"
 import { Dayjs } from "dayjs"
 import type { Fraction } from "@entities/fraction/@x/selection"
@@ -8,7 +8,7 @@ import type { SelectionsOfFraction } from "@entities/selection"
 type Options = {
   db: DBType
   data: {
-    dateMode: SelectionDateMode
+    dateMode: DateMode
     date: Dayjs
     fractionId: Fraction['id']
   }

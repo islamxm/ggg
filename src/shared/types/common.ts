@@ -1,4 +1,4 @@
-import type { CalendarMode } from "antd"
+import type { CalendarMode, DatePickerProps } from "antd"
 import type { ReactNode } from "react"
 
 export type DefaultListElement = {
@@ -49,4 +49,6 @@ export type Months =
   | 'Oct'
   | 'Nov'
   | 'Dec'
+
+export type DateMode = Extract<DatePickerProps['mode'], 'year' | 'month'>
 

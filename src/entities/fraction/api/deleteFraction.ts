@@ -1,5 +1,5 @@
-import type { DBType } from "@shared/config/dbConfig";
-import { type Fraction } from "@entities/fraction";
+import type { DBType } from "@shared/config/dbConfig"
+import type { Fraction } from "../model/types"
 
 type Options = {
   db: DBType

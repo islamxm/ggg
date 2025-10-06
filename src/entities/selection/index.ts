@@ -1,4 +1,4 @@
-export type { Selection, SelectionDateMode } from "./model/types";
+export type { Selection } from "./model/types";
 export { SelectionDayIndicator } from "./ui/SelectionDayIndicator/SelectionDayIndicator";
 export { selectionReducer, selectionActions } from "./model/selectionSlice";
 export type { SelectionsOfFraction } from "./model/types";

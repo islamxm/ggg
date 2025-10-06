@@ -23,7 +23,6 @@ export type Selection = {
   description: string
 }
 
-export type SelectionDateMode = Extract<DatePickerProps['mode'], 'year' | 'month'>
 
 export type SelectionsOfFraction = {
   fractionId: Fraction['id'],

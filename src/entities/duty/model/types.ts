@@ -56,3 +56,8 @@ export type Duty = {
 
 
 export type DutiesData = Record<string, Array<DutyItem>>
+
+export type DutiesOfPerson = {
+  personId: Person['id'],
+  duties: Array<Duty>
+}

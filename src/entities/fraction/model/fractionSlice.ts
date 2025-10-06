@@ -1,19 +1,39 @@
 import { createSlice, type PayloadAction, createEntityAdapter } from "@reduxjs/toolkit";
 import type { Fraction } from "./types";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { deleteSelections, getSelectionsByFractionId, selectionActions } from "@entities/selection";
+import { db } from "@shared/config/dbConfig";
+import { deleteFraction } from "@entities/fraction";
 
 const fractionsAdapter = createEntityAdapter({
   selectId: (fraction: Fraction) => fraction.id,
   sortComparer: (a, b) => a.id - b.id
 })
 
+
+export const deleteFractionAndDepData = createAsyncThunk(
+  'fractions/deleteCascade',
+  async (fractionId: Fraction['id'], {dispatch, getState}) => {
+    const selectionsToDelete = await getSelectionsByFractionId({db, fractionId})
+    const selectionsIds = selectionsToDelete.map(selection => selection.id)
+    if(selectionsIds.length > 0) {
+      await deleteSelections({db, selectionsIds})
+    }
+    await deleteFraction({db, fractionId})
+    dispatch(selectionActions.deleteByFraction(fractionId))
+    dispatch(fractionActions.delete(fractionId))
+    return fractionId
+  }
+) 
+
 const fractionSlice = createSlice({
   name: 'fraction',
   initialState: fractionsAdapter.getInitialState(),
   reducers: {
-    update: (state, { payload }: PayloadAction<Array<Fraction>>) => {
+    init: (state, { payload }: PayloadAction<Array<Fraction>>) => {
       fractionsAdapter.setAll(state, payload)
     },
-    added: fractionsAdapter.addOne,
+    add: fractionsAdapter.addOne,
     delete: fractionsAdapter.removeOne
   }
 })

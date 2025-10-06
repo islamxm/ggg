@@ -7,10 +7,11 @@ import {
 import { useDispatch } from '@shared/hooks/useReduxStore'
 import { db } from '@shared/config/dbConfig'
 import { toast } from 'sonner'
-import { deleteFraction } from '../../model/deleteFraction'
+import { deleteFraction, fractionActions } from '@entities/fraction'
 import type { Fraction } from '@entities/fraction'
 import { ERROR_DEFAULT } from '@shared/consts/errorMessages'
 import { dangerBtnDefProps } from '@shared/config/dangerBtnDefProps'
+import { deleteFractionAndDepData } from '@entities/fraction'
 
 type Props = {
   fractionId: Fraction['id']
@@ -24,18 +25,12 @@ export const DeleteFractionButtonWithConfirm: FC<Props> = ({
 
   const onDelete = () => {
     setIsLoading(true)
-    deleteFraction({
-      db,
-      dispatch,
-      fractionId,
-      onSuccess() {
+    dispatch(deleteFractionAndDepData(fractionId))
+      .then(res => {
         toast.success('Bölümçe barada ähli maglumat pozuldy')
-      },
-      onError() {
-        toast.error(ERROR_DEFAULT)
-      },
-      onFinally() { setIsLoading(false) }
-    })
+      })
+      .catch(() => toast.error(ERROR_DEFAULT))
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -50,7 +45,7 @@ export const DeleteFractionButtonWithConfirm: FC<Props> = ({
       <Button
         {...dangerBtnDefProps}
         icon={<DeleteOutlined />}
-        >
+      >
         Poz
       </Button>
     </Popconfirm>

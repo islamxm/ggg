@@ -1,12 +1,11 @@
 import { Button, Col, Flex, Form, Input, Modal, Row, type ModalFuncProps } from "antd"
 import { useState, type FC } from "react"
-import { addFraction } from "../../model/addFraction"
+import { addFraction } from "@entities/fraction"
 import { db } from "@shared/config/dbConfig"
 import { useDispatch } from "@shared/hooks/useReduxStore"
 import { toast } from "sonner"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
-
-type Props = ModalFuncProps
+import { fractionActions } from "@entities/fraction"
 
 type Inputs = {
   label: string
@@ -15,7 +14,6 @@ type Inputs = {
 const requiredField = {
   rules: [{ required: true, message: 'Hökman doldurylmaly meýdan' }]
 }
-
 
 export const AddFractionModal: FC<ModalFuncProps> = (props) => {
   const dispatch = useDispatch()
@@ -31,19 +29,19 @@ export const AddFractionModal: FC<ModalFuncProps> = (props) => {
     setIsLoading(true)
     addFraction({
       db,
-      dispatch,
       fractionData,
-      onSuccess() {
-        toast.success('Täze bölümçe goşuldy')
-      },
-      onError() {
-        toast.error(ERROR_DEFAULT)
-      },
-      onFinally() {
-        setIsLoading(false)
-        onCancel()    
-      }
     })
+      .then(id => {
+        toast.success('Täze bölümçe goşuldy')
+        dispatch(fractionActions.add({ ...fractionData, id }))
+      })
+      .catch(() => {
+        toast.error(ERROR_DEFAULT)
+      })
+      .finally(() => {
+        setIsLoading(false)
+        onCancel()
+      })
   }
 
   return (

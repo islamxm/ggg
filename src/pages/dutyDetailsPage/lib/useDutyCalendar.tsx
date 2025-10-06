@@ -1,17 +1,24 @@
-import { duties, type Duties, type DutyItem } from "@entities/duty"
+import { duties, type Duties, type Duty } from "@entities/duty"
 import dayjs, { Dayjs } from "dayjs"
 import { DutyDayTag, DutyMonthTag } from "@entities/duty"
-import type { CalendarProps } from "antd"
+import { Flex, type CalendarProps } from "antd"
 import type { DefaultListElement } from "@shared/types/common"
 
-export const useDutyCalendar = (data: Array<DutyItem>) => {
+export const useDutyCalendar = (data: Array<Duty>) => {
 
   const dateCellRender = (value: Dayjs) => {
     const date = dayjs(value).format('DD.MM.YYYY')
-    const duty = data.find(d => dayjs(d.date).format('DD.MM.YYYY') === date)
-    if (!duty) return null
-    const t = duties[duty.dutyType]
-    return <DutyDayTag label={t.label} color={t.color} />
+    const dayDuties = data.filter(d => dayjs(d.date).format('DD.MM.YYYY') === date)
+    if (dayDuties.length === 0) return null
+    return (
+      <Flex gap={2} vertical>
+        {
+          dayDuties.map(duty => (
+            <DutyDayTag label={duties[duty.dutyType].label} color={duties[duty.dutyType].color} />
+          ))
+        }
+      </Flex>
+    )
   }
 
   const monthCellRender = (value: Dayjs) => {
