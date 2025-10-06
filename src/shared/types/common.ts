@@ -34,43 +34,6 @@ export type PositionTypes = 'cb' | 'bg'
 
 export type CBPeriodPart = 'I' | 'II'
 
-export type Duties =
-  | 'hb_nobatcy'
-  | 'hb_komekci'
-  | 'batalyon_nobatcy'
-  | 'batalyon_komekci'
-  | 'operator'
-  | 'cp_gatnadyjy'
-  | 'cp_nobatcy'
-  | 'bgn_nobatcy'
-  | 'bgn_komekci'
-  | 'rota_nobatcy'
-  | 'rota_gundeci'
-  | 'nn_isci'
-  | 'nn_nobatcy'
-  | 'p_nobatcy'
-  | 'p_gundeci'
-  | 'cekiji'
-  | 'ips'
-  | 'ip'
-  | 'gps'
-  | 'gp'
-  | 'ig_serkerde'
-  | 'ig_komekci'
-  | 'ig_calshyryjy'
-  | 'ig_sakcy'
-  | 'gg_serkerde'
-  | 'gg_komekci'
-  | 'gg_calshyryjy'
-  | 'gg_dc'
-  | 'gg_sakcy'
-  | 'g_gozegci'
-  | 'nb_serkerde'
-  | 'nb'
-  | 'yt'
-  | 'na'
-
-
 export type CalendarModeType = CalendarMode | 'date'
 
 export type Months =
@@ -86,3 +49,4 @@ export type Months =
   | 'Oct'
   | 'Nov'
   | 'Dec'
+

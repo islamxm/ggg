@@ -2,8 +2,7 @@ import { dangerBtnDefProps } from "@shared/config/dangerBtnDefProps"
 import { successBtnDefProps } from "@shared/config/successBtnDefProps"
 import { Modal, Button, type ModalFuncProps, Flex, Row, Col, Typography, Select } from "antd"
 import { useState, type FC } from "react"
-import { dutiesArray } from "@shared/consts/duties"
-import type { Duties } from "@shared/types/common"
+import { type Duties, dutiesArray } from "@entities/duty"
 
 type Props = ModalFuncProps & {
   onAddDuty?: (duties: Array<Duties>) => void
@@ -40,13 +39,13 @@ export const DutyListModal: FC<Props> = ({
           showSearch
           optionFilterProp="label"
           placeholder='Tabşyrygy saýla'
-          options={dutiesArray.map(duty => ({label: duty.label, value: duty.value}))}
+          options={dutiesArray.map(duty => ({ label: duty.label, value: duty.value }))}
           filterSort={(optionA, optionB) =>
             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
           }
           value={selected}
           onChange={e => setSelected(e)}
-          />
+        />
         <Col span={24}>
           <Row gutter={10}>
             <Col span={12}><Button onClick={onSave} {...successBtnDefProps}>Ýatda sakla</Button></Col>

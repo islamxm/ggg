@@ -2,14 +2,12 @@ import Dexie, { type EntityTable } from 'dexie';
 import { type Person } from '@entities/person'
 import { type DefaultListElement, type Regions } from '@shared/types/common';
 import type { Fraction } from '@entities/fraction';
+import type { Selection } from '@entities/selection';
+import type { Duty } from '@entities/duty';
 
 export const db = new Dexie('gg') as Dexie & {
   persons: EntityTable<
     Person,
-    'id'
-  >,
-  dutyPositions: EntityTable<
-    DefaultListElement,
     'id'
   >,
   recruitRegions: EntityTable<
@@ -19,15 +17,23 @@ export const db = new Dexie('gg') as Dexie & {
   fractions: EntityTable<
     Fraction,
     'id'
+  >,
+  selections: EntityTable<
+    Selection,
+    'id'
+  >,
+  duties: EntityTable<
+    Duty,
+    'id'
   >
 }
 
-
 db.version(1).stores({
   persons: '++id, name.firstName, name.lastName, name.patronymic',
-  dutyPositions: '++id',
   recruitRegions: '++id',
-  fractions: '++id'
+  fractions: '++id',
+  selections: '++id, date, fractionId',
+  duties: '++id, date, dutyType'
 })
 
 export type DBType = typeof db

@@ -1,9 +1,10 @@
 import { useDebounceCallback } from "usehooks-ts"
 import { useState, useEffect } from 'react'
 import { useSelector } from "@shared/hooks/useReduxStore"
+import { selectAllPersons } from "@entities/person"
 
 export const usePersonSearch = (getResult: DefFunc, initialValue?: string) => {
-  const { persons } = useSelector(s => s.personsReducer)
+  const persons = useSelector(selectAllPersons)
   const [searchValue, setSearchValue] = useState(initialValue ?? '')
   const [result, setResult] = useState<Array<any>>([])
   const [isLoading, setIsLoading] = useState(false)

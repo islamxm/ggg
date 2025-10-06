@@ -1,52 +1,45 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Person } from "./types";
-import type { DutyItem } from "@entities/duty";
 
-type InitialState = {
-  persons: Array<Person>,
+const personsAdapter = createEntityAdapter({
+  selectId: (s: Person) => s.id,
+  sortComparer: (a, b) => a.id - b.id
+})
+
+type State = ReturnType<typeof personsAdapter['getInitialState']> & {
   currentPerson?: Person
 }
 
-const initialState: InitialState = {
-  persons: [],
-  currentPerson: undefined
-}
+const initialState: State = personsAdapter.getInitialState()
 
 const personsSlice = createSlice({
   name: 'person',
   initialState,
   reducers: {
-    updateCurrentPerson: (state, {payload}: PayloadAction<Person | undefined>) => {state.currentPerson = payload},
 
-    addPerson: (state, {payload}: PayloadAction<Person>) => {state.persons.push(payload)},
+    add: personsAdapter.addOne,
 
-    deletePerson: (state, {payload}: PayloadAction<number>) => {state.persons = state.persons.filter(person => person.id !== payload)},
+    delete: personsAdapter.removeOne,
 
-    initPersons: (state, {payload}: PayloadAction<Array<Person>>) => {state.persons = payload},
-    
-    updatePersons: (state, {payload}: PayloadAction<Person>) => {
-      state.persons = state.persons.map(person => {
-        if(person.id === payload.id) {
-          return payload
-        } 
-        return person
-      })
+    init: (state, { payload }: PayloadAction<Array<Person>>) => {
+      personsAdapter.setAll(state, payload)
     },
 
-    addDutyOfPerson: (state, {payload}: PayloadAction<{
-      personId: Person['id'],
-      dutyData: {key: string} & DutyItem
-    }>) => {
-      const {key, ...data} = payload.dutyData
-      state.persons.forEach(person => {
-        if(person.id === payload.personId) {
-          person.duties[key].push(data)
-        }
-      })
-    }
+    updateCurrentPerson: (state, {payload}: PayloadAction<Person>) => {
+      state.currentPerson = payload
+    },
   }
 })
 
+const selectPersonsState = (state: StoreType) => state.personsReducer 
+ 
+export const {
+  selectAll: selectAllPersons,
+  selectById: selectPersonById,
+  selectIds: selectPersonIds,
+} = personsAdapter.getSelectors(selectPersonsState)
+ 
+export const selectCurrentPerson = (state: StoreType) => state.personsReducer.currentPerson
 
 export const personsReducer = personsSlice.reducer
 export const personsActions = personsSlice.actions

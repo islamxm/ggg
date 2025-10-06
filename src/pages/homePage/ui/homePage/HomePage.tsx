@@ -12,10 +12,10 @@ export const HomePage = () => {
     <Flex vertical gap={15}>
       <Typography.Title level={1}>Esasy</Typography.Title>
       <Flex gap={10}>
-        <SearchPerson onChange={setSearchResult}/>
+        <SearchPerson onChange={setSearchResult} />
         <AddPerson />
       </Flex>
-      <PersonsTable data={searchResult}/>
+      <PersonsTable data={searchResult} />
     </Flex>
   )
 }

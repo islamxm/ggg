@@ -1,6 +1,5 @@
-import { getDutyDataKeyFromDate, type Duties, type DutyCreateType } from "@entities/duty"
+import { addDuties, getDutyDataKeyFromDate, type Duties, type DutyCreateType } from "@entities/duty"
 import { getFullName, type Person } from "@entities/person"
-import { updatePerson } from "@features/person/update-person"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
 import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
 import dayjs, { Dayjs } from "dayjs"
@@ -9,11 +8,10 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { db } from "@shared/config/dbConfig"
 import { useNavigate } from "react-router"
-import type { DutyItem } from "@entities/duty"
+import type { Duty, DutyItem } from "@entities/duty"
 
 export const useDuty = () => {
   const dispatch = useDispatch()
-  const { persons } = useSelector(s => s.personsReducer)
   const navigate = useNavigate()
   const [dutyList, setDutyList] = useState<Array<DutyCreateType>>([])
   const [date, setDate] = useState<Dayjs>()
@@ -45,55 +43,22 @@ export const useDuty = () => {
     if (!date) return
 
     setIsLoading(true)
+    const duties: Array<Omit<Duty, 'id'>> = dutyList.filter(f => f.person).map(duty => ({
+      date: date.toDate(),
+      // вот это место опасное, надо исправить
+      personId: duty.person?.id || 0,
+      dutyType: duty.duty
+    }))
 
-    const monthAndYear = getDutyDataKeyFromDate(date)
-
-    const duties = dutyList.filter(f => f.person)
-
-    let updates: Array<Promise<any>> = []
-
-    duties.forEach(duty => {
-      const person = persons.find(p => p.id === duty.person?.id)
-
-      if (person) {
-        const newDuty: DutyItem = {
-          date: date.toDate(),
-          dutyType: duty.duty
-        }
-
-        let duties = { ...person.duties }
-        let targetMonth = duties[monthAndYear] || []
-
-        if (targetMonth.find(d => dayjs(d.date).date() === date.date())) {
-          console.log('Error duty')
-          toast.error(`${date.format('DD.MM.YYYY')} - ${getFullName(person.name, person.rank, true)} tabşyryga bellenen`)
-          return
-        }
-
-        targetMonth = [...targetMonth || [], newDuty]
-        duties[monthAndYear] = targetMonth
-
-        updates.push(updatePerson({
-          db,
-          dispatch,
-          person: {
-            id: duty.person?.id || 1,
-            data: {
-              ...person,
-              duties
-            }
-          }
-        }))
-      }
+    addDuties({
+      db,
+      duties
     })
-
-    Promise.all(updates).then(() => {
-      toast.success('Täze tabşyryklar goşuldy')
+    .then(() => toast.success('Tabşyryklar ýüklendi'))
+    .catch(() => toast.error(ERROR_DEFAULT))
+    .finally(() => {
+      setIsLoading(false)
       _onReset()
-    }).catch(_ => toast.error(ERROR_DEFAULT)).finally(() => {
-      setIsLoading(false)
-    }).finally(() => {
-      setIsLoading(false)
     })
   }
 

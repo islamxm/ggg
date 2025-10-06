@@ -1,4 +1,4 @@
-import { type BG_Person, type CB_Person } from "@entities/person"
+import { personsActions, type BG_Person, type CB_Person } from "@entities/person"
 import type { PositionTypes, Ranks, Regions } from "@shared/types/common"
 import {
   Input,
@@ -17,11 +17,11 @@ import { CbPersonForm } from "../CbPersonForm/CbPersonForm"
 import { BgPersonForm } from "../BgPersonForm/BgPersonForm"
 import { regions } from "@shared/consts/regions"
 import { ranksArray } from "@shared/consts/ranks"
-import { addPerson } from "../../model/addPerson"
 import { db } from "@shared/config/dbConfig"
 import classes from './classes.module.scss'
 import { useDispatch } from "@shared/hooks/useReduxStore"
-import {toast} from 'sonner'
+import { toast } from 'sonner'
+import { addPerson } from "@entities/person"
 
 type Props = ModalFuncProps
 
@@ -74,21 +74,17 @@ export const AddPersonModal: FC<Props> = (props) => {
         positionType: 'cb',
         name,
         period: { part, year },
-        duties: {},
-        achieves: []
       }
       addPerson({
-        db, dispatch, personData: cbPerson,
-        onSuccess() { 
-          toast.success('Täze harby gullukçy goşuldy') 
-        },
-        onError() { 
-          toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň') 
-        },
-        onFinally() {
-          setIsLoading(false)
-          onCancel()
-        }
+        db, personData: cbPerson,
+      }).then((id) => {
+        toast.success('Täze harby gullukçy goşuldy')
+        dispatch(personsActions.add({...cbPerson, id}))
+      }).catch(() => {
+        toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň')
+      }).finally(() => {
+        setIsLoading(false)
+        onCancel()
       })
     }
 
@@ -98,22 +94,19 @@ export const AddPersonModal: FC<Props> = (props) => {
         positionType: 'bg',
         name,
         dateOfEnlistment,
-        duties: {},
-        achieves: [],
         phone,
         adress
       }
       addPerson({
-        db, dispatch, personData: bgPerson,
-        onSuccess() { 
-          toast.success('Täze harby gullukçy goşuldy') },
-        onError() { 
-          toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň') 
-        },
-        onFinally() {
-          setIsLoading(false)
-          onCancel()
-        }
+        db, personData: bgPerson,
+      }).then((id) => {
+        toast.success('Täze harby gullukçy goşuldy')
+        dispatch(personsActions.add({...bgPerson, id}))
+      }).catch(() => {
+        toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň')
+      }).finally(() => {
+        setIsLoading(false)
+        onCancel()
       })
     }
   }

@@ -1,5 +1,4 @@
 import type { CBPeriodPart, Ranks, Regions } from "@shared/types/common"
-import type { DutiesData } from '@entities/duty/@x/person'
 
 export type Achieve = {
   date: Date,
@@ -17,8 +16,8 @@ export type PersonBase = {
   region: Regions,
   dateOfBirth: Date,
 
-  duties: DutiesData,
-  achieves: Array<Achieve>,
+  // duties: DutiesData,
+  // achieves: Array<Achieve>,
 }
 
 export type CB_Person = PersonBase & {

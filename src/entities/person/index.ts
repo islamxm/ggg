@@ -16,3 +16,18 @@ export { getFullName } from "./lib/getFullName";
 export { PersonCard } from "./ui/PersonCard/PersonCard";
 export { PersonTitle } from "./ui/PersonTitle/PersonTitle";
 
+// CRUD
+export { addPerson } from "./api/addPerson";
+export { deletePerson } from "./api/deletePerson";
+export { getAllPersons } from "./api/getAllPersons";
+export { getPerson } from "./api/getPerson";
+export { updatePerson } from "./api/updatePerson";
+
+
+// selectors
+export { 
+  selectAllPersons,
+  selectCurrentPerson,
+  selectPersonById,
+  selectPersonIds 
+} from "./model/personsSlice";

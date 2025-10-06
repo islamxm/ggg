@@ -1,4 +1,4 @@
-import { Button, DatePicker, Flex } from "antd"
+import { Button, DatePicker, Flex, Tooltip } from "antd"
 import { type FC } from "react"
 import type { DateType } from "@pages/selectionPage/model/types"
 
@@ -12,18 +12,20 @@ export const SelectionDate: FC<Props> = ({
   date
 }) => {
 
-
   return (
     <Flex gap={5}>
-      {/* <Button
-        onClick={() => onDateChange?.({date: date.date, mode: 'year'})}
-        variant={date.mode === 'year' ? 'solid' : 'outlined'}
-        color={'primary'}
-      >
-        Ýyl boýunça
-      </Button> */}
+      <Tooltip title='*** Öçürilen' color={'gray'}>
+        <Button
+          disabled
+          onClick={() => onDateChange?.({ date: date.date, mode: 'year' })}
+          variant={date.mode === 'year' ? 'solid' : 'outlined'}
+          color={'primary'}
+        >
+          Ýyl boýunça
+        </Button>
+      </Tooltip>
       <Button
-        onClick={() => onDateChange?.({date:date.date, mode: 'month'})}
+        onClick={() => onDateChange?.({ date: date.date, mode: 'month' })}
         variant={date.mode === 'month' ? 'solid' : 'outlined'}
         color={'primary'}
       >

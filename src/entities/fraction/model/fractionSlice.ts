@@ -1,35 +1,30 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction, createEntityAdapter } from "@reduxjs/toolkit";
 import type { Fraction } from "./types";
-import type { Selection, SelectionData } from "@entities/selection";
-import type {Dayjs} from 'dayjs'
 
-type InitialState = {
-  fractions: Array<Fraction>
-}
-
-const initialState: InitialState = {
-  fractions: []
-}
+const fractionsAdapter = createEntityAdapter({
+  selectId: (fraction: Fraction) => fraction.id,
+  sortComparer: (a, b) => a.id - b.id
+})
 
 const fractionSlice = createSlice({
   name: 'fraction',
-  initialState,
+  initialState: fractionsAdapter.getInitialState(),
   reducers: {
-    initFractions: (state, {payload}: PayloadAction<Array<Fraction>>) => {
-      state.fractions = payload
+    update: (state, { payload }: PayloadAction<Array<Fraction>>) => {
+      fractionsAdapter.setAll(state, payload)
     },
-    addFraction: (state, {payload}: PayloadAction<Fraction>) => {
-      state.fractions.push(payload)
-    },
-    deleteFraction: (state, {payload}: PayloadAction<number>) => {
-      state.fractions = state.fractions.filter(f => f.id !== payload)
-    },
-    updateFractionSelection: (state, {payload}: PayloadAction<{fractionId: number, selection: SelectionData}>) => {
-      const index = state.fractions.findIndex(f => f.id === payload.fractionId)
-      state.fractions[index].selection = payload.selection
-    }
+    added: fractionsAdapter.addOne,
+    delete: fractionsAdapter.removeOne
   }
 })
+
+const selectFractionsState = (state: StoreType) => state.fractionReducer 
+
+export const {
+  selectAll: selectAllFractions,
+  selectById: selectFractionById,
+  selectIds: selectFractionIds
+} = fractionsAdapter.getSelectors(selectFractionsState)
 
 export const fractionActions = fractionSlice.actions
 export const fractionReducer = fractionSlice.reducer

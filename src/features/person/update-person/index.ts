@@ -1,1 +1,0 @@
-export { updatePerson } from "./model/updatePerson";

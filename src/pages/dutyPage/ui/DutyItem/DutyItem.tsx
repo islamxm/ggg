@@ -1,13 +1,11 @@
-import { getFullName, type Person } from "@entities/person"
-import { duties } from "@shared/consts/duties"
+import { getFullName, selectAllPersons, type Person } from "@entities/person"
 import { useSelector } from "@shared/hooks/useReduxStore"
-import type { Duties } from "@shared/types/common"
 import { Flex, Typography, Select, Button, Tooltip } from "antd"
 import classes from './classes.module.scss'
 import { PushpinFilled, DeleteOutlined, CopyOutlined } from '@ant-design/icons'
 import { red } from '@ant-design/colors'
 import { useEffect, useState, type FC } from "react"
-import type { DutyCreateType } from "@entities/duty"
+import { type DutyCreateType, type Duties, duties } from "@entities/duty"
 
 type Props = {
   id: any,
@@ -26,7 +24,7 @@ export const DutyItem: FC<Props> = ({
   onDelete,
   onCopy
 }) => {
-  const { persons } = useSelector(s => s.personsReducer)
+  const persons = useSelector(selectAllPersons)
   const [selected, setSelected] = useState<Person['id']>()
 
   useEffect(() => {
@@ -53,28 +51,28 @@ export const DutyItem: FC<Props> = ({
           value={person?.id || selected}
         />
       </Flex>
-        <Flex gap={5} className={classes.action}>
-          <Tooltip title='Göçür'>
-            <Button
-              onClick={() => onCopy?.({person,duty})}
-              variant={'solid'}
-              shape={'circle'}
-              color={'primary'}
-            >
-              <CopyOutlined />
-            </Button>
-          </Tooltip>
-          <Tooltip title='Ýok et'>
-            <Button
-              onClick={() => onDelete?.(id)}
-              variant={'solid'}
-              shape={'circle'}
-              color={'danger'}
-            >
-              <DeleteOutlined />
-            </Button>
-          </Tooltip>
-        </Flex>
+      <Flex gap={5} className={classes.action}>
+        <Tooltip title='Göçür'>
+          <Button
+            onClick={() => onCopy?.({ person, duty })}
+            variant={'solid'}
+            shape={'circle'}
+            color={'primary'}
+          >
+            <CopyOutlined />
+          </Button>
+        </Tooltip>
+        <Tooltip title='Ýok et'>
+          <Button
+            onClick={() => onDelete?.(id)}
+            variant={'solid'}
+            shape={'circle'}
+            color={'danger'}
+          >
+            <DeleteOutlined />
+          </Button>
+        </Tooltip>
+      </Flex>
     </Flex>
   )
 }

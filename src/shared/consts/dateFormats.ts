@@ -1,0 +1,5 @@
+export const DATE_FORMATS = {
+  DAY_MONTH_YEAR: 'DD.MM.YYYY',
+  MONTH_YEAR: 'MM.YYYY',
+  YEAR: 'YYYY'
+}

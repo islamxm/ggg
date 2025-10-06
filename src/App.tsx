@@ -1,18 +1,31 @@
 import { Routes, Route } from "react-router";
 import { PageLayout } from '@app/layouts/pageLayout'
-import { getAchieveOfUserPage, getAchievePage, getDutyOfUserPage, getDutyPage, getFractionsPage, getHomePage, getPersonDetailsPage, getSelectionPage, getSettingsPage } from './shared/config/routeConfig';
+import { getAchieveOfUserPage, getAchievePage, getDutyOfUserPage, getDutyPage, getFractionsPage, getHomePage, getPersonDetailsPage, getSelectionPage } from './shared/config/routeConfig';
 import { ProvidersLayout } from "@app/layouts/providersLayout";
+import { lazy } from "react";
 
 //PAGES
-import { HomePage } from '@pages/homePage';
-import { SettingsPage } from '@pages/settingsPage';
-import { DutyPage } from '@pages/dutyPage';
-import { AchievePage } from '@pages/achievePage';
-import { PersonDetailsPage } from '@pages/personDetailsPage'
-import { DutyDetailsPage } from "@pages/dutyDetailsPage";
-import { SelectionPage } from "@pages/selectionPage";
-import { FractionPage } from "@pages/fractionPage";
-
+const HomePage = lazy(() => import('@pages/homePage').then(module => ({
+  default: module.HomePage
+})))
+const AchievePage = lazy(() => import('@pages/achievePage').then(module => ({
+  default: module.AchievePage
+})))
+const DutyPage = lazy(() => import('@pages/dutyPage').then(module => ({
+  default: module.DutyPage
+})))
+const PersonDetailsPage = lazy(() => import('@pages/personDetailsPage').then(module => ({
+  default: module.PersonDetailsPage
+})))
+const DutyDetailsPage = lazy(() => import('@pages/dutyDetailsPage').then(module => ({
+  default: module.DutyDetailsPage
+})))
+const SelectionPage = lazy(() => import('@pages/selectionPage').then(module => ({
+  default: module.SelectionPage
+})))
+const FractionPage = lazy(() => import('@pages/fractionPage').then(module => ({
+  default: module.FractionPage
+})))
 
 function App() {
 

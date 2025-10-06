@@ -3,10 +3,10 @@ import { Flex } from "antd"
 import { FractionItem } from "../FractionItem/FractionItem"
 import { AddFraction } from "@features/fraction/add-fraction"
 import { useSelector } from "@shared/hooks/useReduxStore"
-
+import { selectAllFractions } from "@entities/fraction"
 
 export const FractionPage = () => {
-  const { fractions } = useSelector(s => s.fractionReducer)
+  const fractions = useSelector(selectAllFractions)
 
   return (
     <Flex vertical gap={20}>

@@ -1,8 +1,9 @@
 import type { Selection } from "@entities/selection/model/types"
 import { dangerBtnDefProps } from "@shared/config/dangerBtnDefProps"
 import { successBtnDefProps } from "@shared/config/successBtnDefProps"
-import { Button, Flex } from "antd"
+import { Button, Flex, Tag, Typography } from "antd"
 import type { FC } from "react"
+import { green, red } from '@ant-design/colors'
 
 type Props = {
   selection?: Array<Selection>
@@ -20,27 +21,8 @@ export const SelectionDayIndicator: FC<Props> = ({
 
   return (
     <Flex vertical>
-      {plus > 0 && (
-        <Button
-          {...successBtnDefProps}
-          variant={'solid'}
-          // shape={'circle'}
-          // size="small"
-        >
-          {plus}
-        </Button>
-      )}
-      {minus > 0 && (
-        <Button
-          {...dangerBtnDefProps}
-          variant={'solid'}
-          // shape={'circle'}
-          // size="small"
-        >
-          {minus}
-        </Button>
-      )}
-
+      {plus > 0 && <Tag color={'green'}><b>{plus}</b></Tag>}
+      {minus > 0 && <Tag color={'red'}><b>{minus}</b></Tag>}
     </Flex>
   )
 }

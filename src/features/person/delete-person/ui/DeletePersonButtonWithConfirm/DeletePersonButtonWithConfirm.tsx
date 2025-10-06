@@ -5,9 +5,9 @@ import {
   DeleteOutlined
 } from '@ant-design/icons'
 import { useDispatch } from '@shared/hooks/useReduxStore'
-import { deletePerson } from '../../model/deletePerson'
+import { deletePerson, personsActions } from '@entities/person'
 import { db } from '@shared/config/dbConfig'
-import {toast} from 'sonner'
+import { toast } from 'sonner'
 
 type Props = {
   personId: Person['id']
@@ -23,15 +23,14 @@ export const DeletePersonButtonWithConfirm: FC<Props> = ({
     setIsLoading(true)
     deletePerson({
       db,
-      dispatch,
       personId,
-      onSuccess() {
-        toast.success('Harby gullukçy barada ähli maglumat pozuldy')
-      },
-      onError() {
-        toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň')
-      },
-      onFinally() { setIsLoading(false) }
+    }).then(() => {
+      toast.success('Harby gullukçy barada ähli maglumat pozuldy')
+      dispatch(personsActions.delete(personId))
+    }).catch(() => {
+      toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň')
+    }).finally(() => {
+      setIsLoading(false)
     })
   }
 

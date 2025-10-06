@@ -1,4 +1,4 @@
-import type { Person } from "@entities/person"
+import type { Person } from "@entities/person/@x/duty"
 
 export type Duties =
   | 'hb_nobatcy'
@@ -46,5 +46,13 @@ export type DutyItem = {
   date: Date,
   dutyType: Duties,
 }
+
+export type Duty = {
+  id: number,
+  date: Date,
+  dutyType: Duties,
+  personId: Person['id']
+}
+
 
 export type DutiesData = Record<string, Array<DutyItem>>

@@ -4,4 +4,4 @@ type Options = {
   db: DBType
 }
 
-export const getAllFractions = async ({ db }: Options) => await db.fractions.toArray()
+export const getAllPersons = async ({ db }: Options) => await db.persons.toArray()

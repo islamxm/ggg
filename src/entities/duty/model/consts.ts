@@ -2,7 +2,7 @@ import type { DefaultListElement } from "@shared/types/common";
 import type { Duties } from "./types";
 import * as colors from '@ant-design/colors'
 
-export const duties: Record<Duties, DefaultListElement & { color?: string}> = {
+export const duties: Record<Duties, DefaultListElement & { color?: string }> = {
   'hb_nobatcy': {
     id: 1,
     label: 'Harby bölüm boýunça nobatçy',

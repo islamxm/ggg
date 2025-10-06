@@ -1,0 +1,1 @@
+export type { Fraction } from "../model/types";

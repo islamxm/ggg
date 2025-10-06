@@ -3,13 +3,12 @@ import { dangerBtnDefProps } from "@shared/config/dangerBtnDefProps"
 import { successBtnDefProps } from "@shared/config/successBtnDefProps"
 import { Button, Col, Flex, Modal, Row, type ModalFuncProps, Input, Form, DatePicker } from "antd"
 import { useEffect, useState, type FC } from "react"
-import { useAddSelection } from "../../lib/useAddSelection"
 import type { Dayjs } from 'dayjs'
-import { addSelection } from "../../model/addSelection"
 import { db } from "@shared/config/dbConfig"
 import { useDispatch } from "@shared/hooks/useReduxStore"
 import { toast } from "sonner"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
+import { addSelection } from "@entities/selection"
 
 type FormType = {
   description: string
@@ -30,47 +29,41 @@ export const AddSelectionModal: FC<Props> = ({
   const [deviation, setDeviation] = useState<Deviation>('+')
   const [form] = Form.useForm<FormType>()
   const [isLoading, setIsLoading] = useState(false)
-  const { getReadyToAddSelectionData } = useAddSelection()
 
   useEffect(() => {
-    if(initDate) {
+    if (initDate) {
       form.setFieldValue('date', initDate)
     }
   }, [initDate])
 
   const onCancel = () => {
-    form.resetFields()
+    form.setFieldsValue({description: ''})
     props?.onCancel?.()
   }
 
   const onAddSelection = (data: FormType) => {
     setIsLoading(true)
     const { date, description = '' } = data
-    const newData = getReadyToAddSelectionData({
-      fractionId,
-      date,
-      data: {
-        deviation,
-        description
-      }
-    })
+
     addSelection({
       db,
-      dispatch,
-      data: {
+      selection: {
         fractionId,
-        selection: newData
-      },
-      onSuccess() {
-        toast.success('Bellik goşuldy')
-      },
-      onError() {
-        toast.error(ERROR_DEFAULT)
-      },
-      onFinally() {
-        setIsLoading(false)
+        description,
+        deviation,
+        date: date.toDate()
       }
     })
+      .then(() => {
+        toast.success('Täze bellik goşuldy')
+      })
+      .catch(() => {
+        toast.error(ERROR_DEFAULT)
+      })
+      .finally(() => {
+        setIsLoading(false)
+        onCancel()
+      })
   }
 
   return (
@@ -140,7 +133,7 @@ export const AddSelectionModal: FC<Props> = ({
                   {...dangerBtnDefProps}
                   variant={'filled'}
                   onClick={onCancel}
-                  >
+                >
                   Bes et
                 </Button>
               </Col>
