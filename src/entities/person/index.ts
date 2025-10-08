@@ -28,5 +28,6 @@ export {
   selectAllPersons,
   selectCurrentPerson,
   selectPersonById,
-  selectPersonIds 
+  selectPersonIds,
+  deletePersonAndDepData
 } from "./model/personsSlice";
