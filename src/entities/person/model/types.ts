@@ -1,10 +1,5 @@
 import type { CBPeriodPart, Ranks, Regions } from "@shared/types/common"
 
-export type Achieve = {
-  date: Date,
-  achieveId: number,
-}
-
 export type PersonBase = {
   id: number,
   name: {
@@ -22,7 +17,7 @@ export type PersonBase = {
 
 export type CB_Person = PersonBase & {
   positionType: 'cb'
-  period?: { year: number, part: CBPeriodPart },
+  period?: { year: Date, part: CBPeriodPart },
 }
 
 export type BG_Person = PersonBase & {

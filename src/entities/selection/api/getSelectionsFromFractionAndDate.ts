@@ -8,7 +8,7 @@ import type { SelectionsOfFraction } from "@entities/selection"
 type Options = {
   db: DBType
   data: {
-    dateMode: DateMode
+    dateMode: DateMode | 'day'
     date: Dayjs
     fractionId: Fraction['id']
   }

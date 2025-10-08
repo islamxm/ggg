@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router'
 import { ERROR_DEFAULT } from '@shared/consts/errorMessages'
 import { toast } from 'sonner'
 import { ranks } from '@shared/consts/ranks'
-import { deletePerson, PersonCard } from '@entities/person'
+import { deletePerson, personsActions } from '@entities/person'
+import { useDispatch } from '@shared/hooks/useReduxStore'
 
 type Props = ModalFuncProps & {
   onConfirmDelete?: DefFunc,
@@ -19,6 +20,7 @@ export const DeletePersonModalConfirm: FC<Props> = ({
   onCancel,
   ...restProps
 }) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -28,14 +30,19 @@ export const DeletePersonModalConfirm: FC<Props> = ({
       deletePerson({
         db,
         personId: currentPerson.id,
-      }).then(() => {
-        toast.success('Harby gullukçy barada ähli maglumat pozuldy')
-        navigate(-1)
-      }).catch(() => {
-        toast.error(ERROR_DEFAULT)
-      }).finally(() => {
-        setIsLoading(false)
       })
+        .then(() => {
+          toast.success('Harby gullukçy barada ähli maglumat pozuldy')
+          dispatch(personsActions.delete(currentPerson.id))
+          dispatch(personsActions.updateCurrentPerson(undefined))
+          navigate(-1)
+        })
+        .catch(() => {
+          toast.error(ERROR_DEFAULT)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
   }
 

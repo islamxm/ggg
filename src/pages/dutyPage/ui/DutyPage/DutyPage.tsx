@@ -37,6 +37,7 @@ export const DutyPage = () => {
         onChange={setDate}
         size='large'
         placeholder='Tabşyryklaryň senesini saýla'
+        format="DD.MM.YYYY"
       />
       <Flex vertical gap={10}>
         {

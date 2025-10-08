@@ -1,24 +1,21 @@
-import type { CB_Person } from "@entities/person/model"
 import {
   Flex,
   Select,
   DatePicker,
   Form
 } from "antd"
-import type { FC } from "react"
 
-type Props = {
-  period?: CB_Person['period']
-  onChange?: (...args: any[]) => any
+const requiredField = {
+  rules: [{ required: true, message: 'Hökman doldurylmaly meýdan' }]
 }
-
-export const CbPersonForm: FC<Props> = () => {
+export const CbPersonForm = () => {
 
   return (
     <Flex vertical gap={10}>
       <Form.Item
         style={{ margin: 0 }}
         name={'year'}
+        {...requiredField}
       >
         <DatePicker
           style={{width: '100%'}}
@@ -28,6 +25,7 @@ export const CbPersonForm: FC<Props> = () => {
       <Form.Item
         style={{ margin: 0 }}
         name={'part'}
+        {...requiredField}
       >
         <Select
           placeholder='Çagyrylan möwsümi'

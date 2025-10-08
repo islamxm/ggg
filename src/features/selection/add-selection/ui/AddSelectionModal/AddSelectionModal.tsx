@@ -8,7 +8,7 @@ import { db } from "@shared/config/dbConfig"
 import { useDispatch } from "@shared/hooks/useReduxStore"
 import { toast } from "sonner"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
-import { addSelection } from "@entities/selection"
+import { addSelection, selectionActions } from "@entities/selection"
 
 type FormType = {
   description: string
@@ -37,7 +37,7 @@ export const AddSelectionModal: FC<Props> = ({
   }, [initDate])
 
   const onCancel = () => {
-    form.setFieldsValue({description: ''})
+    form.setFieldsValue({ description: '' })
     props?.onCancel?.()
   }
 
@@ -54,8 +54,15 @@ export const AddSelectionModal: FC<Props> = ({
         date: date.toDate()
       }
     })
-      .then(() => {
+      .then(id => {
         toast.success('Täze bellik goşuldy')
+        dispatch(selectionActions.addSelectionToCurrentSelection({
+          id,
+          fractionId,
+          description,
+          deviation,
+          date: date.toDate(),
+        }))
       })
       .catch(() => {
         toast.error(ERROR_DEFAULT)
@@ -81,28 +88,37 @@ export const AddSelectionModal: FC<Props> = ({
         <Flex vertical gap={20}>
           <Col span={24}>
             <Row gutter={[5, 5]}>
-              <Col span={12}>
+              <Col span={8}>
                 <Button
                   color={'primary'}
                   style={{ width: '100%' }}
                   onClick={() => setDeviation('+')}
                   variant={deviation === '+' ? 'solid' : 'outlined'}
-                  // color={'green'}
                   shape={'round'}
                 >
                   Üstünlik
                 </Button>
               </Col>
-              <Col span={12}>
+              <Col span={8}>
                 <Button
                   onClick={() => setDeviation('-')}
                   color={'primary'}
                   style={{ width: '100%' }}
                   shape={'round'}
                   variant={deviation === '-' ? 'solid' : 'outlined'}
-                // color={'danger'}
                 >
                   Kemçilik
+                </Button>
+              </Col>
+              <Col span={8}>
+                <Button
+                  onClick={() => setDeviation('--')}
+                  color={'danger'}
+                  style={{ width: '100%' }}
+                  shape={'round'}
+                  variant={deviation === '--' ? 'solid' : 'outlined'}
+                >
+                  Gödek kemçilik
                 </Button>
               </Col>
             </Row>

@@ -5,7 +5,9 @@ import {
   Form
 } from "antd"
 import type { FC } from "react"
-
+const requiredField = {
+  rules: [{ required: true, message: 'Hökman doldurylmaly meýdan' }]
+}
 
 export const BgPersonForm: FC = () => {
   return (
@@ -13,9 +15,10 @@ export const BgPersonForm: FC = () => {
       <Form.Item
         style={{ margin: 0 }}
         name={'dateOfEnlistment'}
+        {...requiredField}
       >
         <DatePicker
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
           placeholder='Haçandan bäri harby gullukda'
         />
       </Form.Item>

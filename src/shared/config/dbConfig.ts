@@ -4,6 +4,7 @@ import { type DefaultListElement, type Regions } from '@shared/types/common';
 import type { Fraction } from '@entities/fraction';
 import type { Selection } from '@entities/selection';
 import type { Duty } from '@entities/duty';
+import type { Achieve } from '@entities/achieve';
 
 export const db = new Dexie('gg') as Dexie & {
   persons: EntityTable<
@@ -25,6 +26,10 @@ export const db = new Dexie('gg') as Dexie & {
   duties: EntityTable<
     Duty,
     'id'
+  >,
+  achieves: EntityTable<
+    Achieve,
+    'id'
   >
 }
 
@@ -33,7 +38,8 @@ db.version(1).stores({
   recruitRegions: '++id',
   fractions: '++id',
   selections: '++id, date, fractionId',
-  duties: '++id, date, dutyType, personId'
+  duties: '++id, date, dutyType, personId',
+  achieves: '++id, date, achieveType, personId'
 })
 
 export type DBType = typeof db

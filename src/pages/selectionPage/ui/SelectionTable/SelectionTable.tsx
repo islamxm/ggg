@@ -1,12 +1,15 @@
 import { Table } from "antd"
 import { type FC } from "react"
 import type { DateType } from "@pages/selectionPage/model/types"
-import { SelectionDayIndicator } from "@entities/selection"
+import { selectionActions, SelectionDayIndicator } from "@entities/selection"
 import type { SelectionsOfFraction } from "@entities/selection"
 import { AddSelectionButton } from "@features/selection/add-selection"
 import dayjs from 'dayjs'
-import { useSelector } from "@shared/hooks/useReduxStore"
+import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
 import { selectAllFractions } from "@entities/fraction"
+import { useNavigate } from "react-router"
+import { getSelectionOfFraction } from "@shared/config/routeConfig"
+import { tdd } from "@shared/lib/tdd"
 const { Column } = Table
 
 type Props = {
@@ -18,6 +21,8 @@ export const SelectionTable: FC<Props> = ({
   data,
   date
 }) => {
+  const dispatch = useDispatch()
+  const navigation = useNavigate()
   const fractions = useSelector(selectAllFractions)
   const daysInMonth = new Array(date.date.daysInMonth()).fill(() => 1).map((_, index) => index + 1)
 
@@ -43,6 +48,13 @@ export const SelectionTable: FC<Props> = ({
               <Column
                 title={day}
                 dataIndex={day}
+                onCell={(data: SelectionsOfFraction) => ({
+                  onClick: () => {
+                    const d = dayjs(`${tdd(day)}.${dayjs(date.date).format('MM.YYYY')}`, 'DD.MM.YYYY').toDate()
+                    dispatch(selectionActions.updateSelectionDetailsDate(d))
+                    navigation(getSelectionOfFraction(data.fractionId.toString()))
+                  }
+                })}
                 render={(_, data: SelectionsOfFraction) => {
                   const currentData = data.selections.filter((s: any) => dayjs(s.date).date() === day)
                   return <SelectionDayIndicator selection={currentData} />

@@ -3,8 +3,8 @@ import { useEffect } from "react"
 import { Flex } from "antd"
 import { PersonTop } from "../PersonTop/PersonTop"
 import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
-import { getPerson } from "@features/person/get-person"
 import { db } from "@shared/config/dbConfig"
+import { getPerson } from "@entities/person"
 import { toast } from "sonner"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
 import { PersonInfo } from "../PersonInfo/PersonInfo"
@@ -19,13 +19,13 @@ export const PersonDetailsPage = () => {
       getPerson({
         db,
         personId: Number(id),
-        onSuccess(person) {
-          dispatch(personsActions.updateCurrentPerson(person))
-        },
-        onError() {
-          toast.error(ERROR_DEFAULT)
-        },
       })
+        .then(person => {
+          dispatch(personsActions.updateCurrentPerson(person))
+        })
+        .catch(() => {
+          toast.error(ERROR_DEFAULT)
+        })
     }
     return () => {
       dispatch(personsActions.updateCurrentPerson(undefined))
@@ -39,7 +39,7 @@ export const PersonDetailsPage = () => {
   return (
     <Flex vertical gap={20}>
       <PersonTop id={Number(id)} name={currentPerson.name} rank={currentPerson.rank} />
-      <PersonInfo/>
+      <PersonInfo />
     </Flex>
   )
 }

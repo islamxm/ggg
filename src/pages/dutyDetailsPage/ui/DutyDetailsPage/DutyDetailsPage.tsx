@@ -14,7 +14,7 @@ import type { CalendarMode } from "antd"
 import { getPerson } from "@entities/person"
 
 export const DutyDetailsPage = () => {
-  const id = useGetPersonIdFromParams()
+  const personId = useGetPersonIdFromParams()
   const dispatch = useDispatch()
   const { currentPerson } = useSelector(s => s.personsReducer)
   const [selectedDuties, setSelectedDuties] = useState<Duties>()
@@ -23,18 +23,17 @@ export const DutyDetailsPage = () => {
   const [data, setData] = useState<Array<Duty>>([])
 
   useEffect(() => {
-    if (id) {
-      getPerson({
-        db,
-        personId: Number(id),
-      })
-        .then(person => dispatch(personsActions.updateCurrentPerson(person)))
-        .catch(() => toast.error(ERROR_DEFAULT))
-    }
+    if (!personId) return
+    getPerson({
+      db,
+      personId: Number(personId),
+    })
+      .then(person => dispatch(personsActions.updateCurrentPerson(person)))
+      .catch(() => toast.error(ERROR_DEFAULT))
     return () => {
       dispatch(personsActions.updateCurrentPerson(undefined))
     }
-  }, [id])
+  }, [personId])
 
   useEffect(() => {
     if (date && currentPerson) {
@@ -49,8 +48,8 @@ export const DutyDetailsPage = () => {
         .then(res => {
           if (selectedDuties) {
             setData(res.duties.filter(duty => duty.dutyType === selectedDuties))
-          } else setData(res.duties) 
-          
+          } else setData(res.duties)
+
         })
         .catch(() => {
           toast.error(ERROR_DEFAULT)
@@ -58,7 +57,6 @@ export const DutyDetailsPage = () => {
     }
   }, [date, selectedDuties, currentPerson, mode])
 
-  useEffect(() => console.log(data.map(d => d.dutyType)), [data])
 
   if (!currentPerson) return null
 

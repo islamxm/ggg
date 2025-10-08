@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 import { PageLayout } from '@app/layouts/pageLayout'
-import { getAchieveOfUserPage, getAchievePage, getDutyOfUserPage, getDutyPage, getFractionsPage, getHomePage, getPersonDetailsPage, getSelectionPage } from './shared/config/routeConfig';
+import { getAchieveOfUserPage, getAchievePage, getDutyOfUserPage, getDutyPage, getFractionsPage, getHomePage, getPersonDetailsPage, getSelectionPage, getSelectionOfFraction } from './shared/config/routeConfig';
 import { ProvidersLayout } from "@app/layouts/providersLayout";
 import { lazy } from "react";
 
@@ -26,6 +26,9 @@ const SelectionPage = lazy(() => import('@pages/selectionPage').then(module => (
 const FractionPage = lazy(() => import('@pages/fractionPage').then(module => ({
   default: module.FractionPage
 })))
+const SelectionDetailsPage = lazy(() => import('@pages/selectionDetailsPage').then(module => ({
+  default: module.SelectionDetailsPage
+})))
 
 function App() {
 
@@ -43,6 +46,7 @@ function App() {
           <Route path={getPersonDetailsPage(':id')} element={<PersonDetailsPage />}></Route>
           <Route path={getDutyOfUserPage(':id')} element={<DutyDetailsPage />}></Route>
           <Route path={getAchieveOfUserPage(':id')} element={<AchievePage />}></Route>
+          <Route path={getSelectionOfFraction(':fractionId')} element={<SelectionDetailsPage />}></Route>
         </Routes>
       </PageLayout>
     </ProvidersLayout>

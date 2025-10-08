@@ -1,11 +1,17 @@
 import { Form, Input, Flex, Select, DatePicker, Button } from 'antd'
 import type { Ranks, Regions, PositionTypes } from '@shared/types/common'
-import type { BG_Person, Person } from '@entities/person'
+import { personsActions, selectCurrentPerson, updatePerson, type BG_Person, type CB_Person, type Person } from '@entities/person'
 import { useEffect, useState } from 'react'
-import { useSelector } from '@shared/hooks/useReduxStore'
+import { useDispatch, useSelector } from '@shared/hooks/useReduxStore'
 import { regions } from '@shared/consts/regions'
 import { ranks, ranksArray } from '@shared/consts/ranks'
 import { DeletePersonButtonWithModal } from '@features/person/delete-person/ui/DeletePersonButtonWithModal/DeletePersonButtonWithModal'
+import dayjs, { Dayjs } from 'dayjs'
+import { PersonCbInfo } from '../PersonCbInfo/PersonCbInfo'
+import { PersonBgInfo } from '../PersonBgInfo/PersonBgInfo'
+import { db } from '@shared/config/dbConfig'
+import { toast } from 'sonner'
+import { ERROR_DEFAULT } from '@shared/consts/errorMessages'
 
 type BaseInputs = {
   firstName: string,
@@ -13,29 +19,112 @@ type BaseInputs = {
   patronymic: string,
   rank: Ranks
   region: Regions
-  dateOfBirth: any
+  dateOfBirth: Dayjs
   positionType: PositionTypes
 
   part?: 'I' | 'II'
-  year?: number
+  year?: Dayjs
 
-  dateOfEnlistment?: BG_Person['dateOfEnlistment']
+  dateOfEnlistment?: Dayjs
   phone?: string,
   adress?: string
 }
 
 export const PersonInfo = () => {
-  const { currentPerson } = useSelector(s => s.personsReducer)
+  const dispatch = useDispatch()
+  const currentPerson = useSelector(selectCurrentPerson)
   const [form] = Form.useForm<BaseInputs>()
   const [positionType, setPositionType] = useState<Person['positionType']>()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (currentPerson) setPositionType(currentPerson.positionType)
+    if (currentPerson) {
+      setPositionType(currentPerson.positionType)
+    }
   }, [currentPerson])
 
-  const setDefaultData: Person | undefined = () => {
-    
+  const onSave = (data: BaseInputs) => {
+    if (!currentPerson) return
+
+    const {
+      firstName,
+      lastName,
+      patronymic,
+
+      part,
+      year,
+
+      dateOfEnlistment,
+      phone,
+      adress,
+      ...rest
+    } = data
+
+    const name = { firstName, lastName, patronymic }
+    const isCbDataEnough = part && year
+    const isBgDataEnough = dateOfEnlistment
+
+    setIsLoading(true)
+    console.log(positionType)
+    if (data.positionType === 'cb' && isCbDataEnough) {
+      const cbPerson: Omit<CB_Person, 'id'> = {
+        ...rest,
+        dateOfBirth: data.dateOfBirth.toDate(),
+        positionType: 'cb',
+        name,
+        period: { part, year: year.toDate() },
+      }
+      updatePerson({
+        db,
+        person: {
+          id: currentPerson.id,
+          data: cbPerson
+        }
+      })
+        .then(() => {
+          toast.success('Harby gullukçy baradaky maglumatlar üýtgedildi')
+          dispatch(personsActions.update({ id: currentPerson.id, changes: cbPerson }))
+          dispatch(personsActions.updateCurrentPerson({id: currentPerson.id, ...cbPerson}))
+        })
+        .catch(() => {
+          toast.error(ERROR_DEFAULT)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    }
+    if (data.positionType === 'bg' && isBgDataEnough) {
+      const bgPerson: Omit<BG_Person, 'id'> = {
+        ...rest,
+        dateOfBirth: data.dateOfBirth.toDate(),
+        positionType: 'bg',
+        name,
+        dateOfEnlistment: dateOfEnlistment.toDate(),
+        phone,
+        adress
+      }
+      updatePerson({
+        db,
+        person: {
+          id: currentPerson.id,
+          data: bgPerson
+        }
+      })
+        .then(() => {
+          toast.success('Harby gullukçy baradaky maglumatlar üýtgedildi')
+            dispatch(personsActions.update({ id: currentPerson.id, changes: bgPerson }))
+            dispatch(personsActions.updateCurrentPerson({id: currentPerson.id, ...bgPerson}))
+        })
+        .catch(() => {
+          toast.error(ERROR_DEFAULT)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    }
   }
+
+  if (!currentPerson) return null
 
   return (
     <Form
@@ -45,18 +134,26 @@ export const PersonInfo = () => {
         firstName: currentPerson?.name.firstName,
         lastName: currentPerson?.name.lastName,
         patronymic: currentPerson?.name.patronymic,
-        // dateOfBirth: currentPerson?.dateOfBirth,
+        dateOfBirth: dayjs(currentPerson?.dateOfBirth),
         region: currentPerson?.region,
         positionType: currentPerson?.positionType,
-        rank: ranks[currentPerson?.rank ?? 'hcy']
+        rank: ranks[currentPerson?.rank ?? 'hcy'],
+        part: currentPerson?.period?.part,
+        year: dayjs(currentPerson?.period?.year),
+        dateOfEnlistment: dayjs(currentPerson?.dateOfEnlistment)
       }}
+      onFinish={onSave}
     >
       <Flex gap={10} vertical>
         <Form.Item style={{ marginBottom: 0 }} labelCol={{ span: 24 }} label='Ady' name={'firstName'}>
-          <Input size='large' defaultValue={form.getFieldValue('firstName')} />
+          <Input
+            size='large'
+          />
         </Form.Item>
         <Form.Item style={{ marginBottom: 0 }} labelCol={{ span: 24 }} label='Familiýasy' name={'lastName'}>
-          <Input size='large' defaultValue={form.getFieldValue('lastName')} />
+          <Input
+            size='large'
+          />
         </Form.Item>
         <Form.Item
           style={{ marginBottom: 0 }}
@@ -64,7 +161,9 @@ export const PersonInfo = () => {
           label='Atasynyň ady'
           name={'patronymic'}
         >
-          <Input size='large' defaultValue={form.getFieldValue('patronymic')} />
+          <Input
+            size='large'
+          />
         </Form.Item>
         {
           positionType && (
@@ -106,6 +205,7 @@ export const PersonInfo = () => {
             size={'large'}
             style={{ width: '100%' }}
             placeholder="Doglan güni"
+            format={'DD.MM.YYYY'}
           />
         </Form.Item>
         <Form.Item
@@ -122,24 +222,19 @@ export const PersonInfo = () => {
           />
         </Form.Item>
 
-        {positionType === 'bg' && null}
-        {positionType === 'cb' && null}
+        {positionType === 'bg' && <PersonBgInfo />}
+        {positionType === 'cb' && <PersonCbInfo />}
 
         <Flex gap={10} justify={'end'}>
           <Button
             size='large'
             color={'green'}
             variant={'solid'}
+            htmlType='submit'
+            loading={isLoading}
           >
             Ýatda sakla
           </Button>
-          {/* <Button
-            size='large'
-            color={'danger'}
-            variant={'outlined'}
-          >
-            Bes set
-          </Button> */}
           <DeletePersonButtonWithModal currentPerson={currentPerson} />
         </Flex>
       </Flex>

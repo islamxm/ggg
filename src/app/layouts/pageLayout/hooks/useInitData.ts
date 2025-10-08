@@ -5,8 +5,8 @@ import { getAllPersons } from "@entities/person"
 import { useEffect } from "react"
 import { toast } from 'sonner'
 import { fractionActions } from "@entities/fraction"
-import { getAllFractions } from "@features/fraction/get-fraction"
 import { defaultErrorNotification } from "@shared/lib/defaultErrorNotification"
+import { getAllFractions } from "@entities/fraction"
 
 export const useInitData = () => {
   const dispatch = useDispatch()

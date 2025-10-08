@@ -1,1 +1,0 @@
-export { getAllFractions } from "./model/getAllFractions";

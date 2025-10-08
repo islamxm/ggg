@@ -17,12 +17,16 @@ export const getFractionsPage = () => '/fractions'
 export const getDutyOfUserPage = (userId: string) => `${getDutyPage()}/${userId}`
 export const getAchieveOfUserPage = (userId: string) => `${getAchievePage()}/${userId}`  
 export const getPersonDetailsPage = (userId: string) => `/persons/${userId}`
-
+export const getSelectionOfFraction = (fractionId: string, date?: Date) => {
+  if(date) {
+    return `${getSelectionPage()}/${fractionId}?date=${date.getTime()}`
+  } else return `${getSelectionPage()}/${fractionId}`
+}
 
 export const routesMap:Record<string, Omit<Route, 'path'>> = {
   [getHomePage()]: {id: 1, label: 'Esasy', icon: <HomeOutlined/>},
   [getDutyPage()]: {id: 2, label: 'Tabşyryk', icon: <PushpinOutlined/>},
-  [getAchievePage()]: {id: 3, label: 'Höweslendirmeler', icon: <TrophyOutlined/>},
+  // [getAchievePage()]: {id: 3, label: 'Höweslendirmeler', icon: <TrophyOutlined/>},
   [getSelectionPage()]: {id: 4, label: 'Seljerme', icon: <BarChartOutlined/>},
   [getFractionsPage()]: {id: 5, label: 'Bölümçeler', icon: <ProductOutlined />},
 }

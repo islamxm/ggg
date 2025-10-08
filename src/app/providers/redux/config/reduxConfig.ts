@@ -4,13 +4,15 @@ import { personsReducer } from '@entities/person'
 import { fractionReducer } from '@entities/fraction'
 import { selectionReducer } from '@entities/selection'
 import { dutyReducer } from '@entities/duty'
+import { achieveReducer } from '@entities/achieve'
 
 export const store = configureStore({
   reducer: {
     personsReducer,
     fractionReducer,
     selectionReducer,
-    dutyReducer
+    dutyReducer,
+    achieveReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -5,7 +5,7 @@ type Options = {
   db: DBType
   person: {
     id: Person['id'],
-    data: Omit<Person, 'id'>
+    data: Partial<Omit<Person, 'id'>>
   }
 }
 

@@ -1,7 +1,7 @@
 import { Space, Tooltip, Typography } from "antd"
 import type { FC, PropsWithChildren, ReactNode } from "react"
-import {QuestionCircleOutlined} from '@ant-design/icons'
-import {gold} from '@ant-design/colors'
+import { QuestionCircleOutlined } from '@ant-design/icons'
+import { gold } from '@ant-design/colors'
 
 
 type Props = PropsWithChildren & {
@@ -14,16 +14,19 @@ export const PageTitle: FC<Props> = ({
 }) => {
   return (
     <Space align={'center'}>
-      <Typography.Title style={{margin: 0}}>
+      <Typography.Title style={{ margin: 0 }}>
         {children}
       </Typography.Title>
-      <Tooltip
-        title={hintContent}
-        placement={'bottomRight'}
-        >
-        <QuestionCircleOutlined style={{color: gold[6]}}/>
-      </Tooltip>
-
+      {
+        hintContent && (
+          <Tooltip
+            title={hintContent}
+            placement={'bottomRight'}
+          >
+            <QuestionCircleOutlined style={{ color: gold[6] }} />
+          </Tooltip>
+        )
+      }
     </Space>
 
   )

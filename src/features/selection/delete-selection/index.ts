@@ -1,0 +1,1 @@
+export { DeleteSelectionIconButton } from "./ui/DeleteSelectionIconButton/DeleteSelectionIconButton";

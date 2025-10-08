@@ -7,22 +7,22 @@ import { useEffect, useState } from "react"
 import dayjs from "dayjs"
 import type { DateType } from "@pages/selectionPage/model/types"
 import { db } from "@shared/config/dbConfig"
-import { addSelection } from "@entities/selection"
-import { type Selection } from "@entities/selection"
+import { selectionActions } from "@entities/selection"
 import type { SelectionsOfFraction } from "@entities/selection"
 import { selectAllFractions } from "@entities/fraction"
 import { getSelectionsFromFractionAndDate } from "@entities/selection/api/getSelectionsFromFractionAndDate"
+import { toast } from "sonner"
+import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
+import { selectCurrentSelection } from "@entities/selection/model/selectionSlice"
 
 export const SelectionPage = () => {
   const dispatch = useDispatch()
   const fractions = useSelector(selectAllFractions)
+  const data = useSelector(selectCurrentSelection)
   const [dateValue, setDateValue] = useState<DateType>({
     date: dayjs(new Date()),
     mode: 'month'
   })
-
-  const [data, setData] = useState<Array<SelectionsOfFraction>>([])
-
 
   useEffect(() => {
     const { date, mode } = dateValue
@@ -39,35 +39,21 @@ export const SelectionPage = () => {
         }
       })))
         .then((res) => {
-          console.log(res)
-          setData(res)
+          dispatch(selectionActions.updateCurrentSelection(res))
+        })
+        .catch(() => {
+          toast.error(ERROR_DEFAULT)
         })
     }
-    if (mode === 'year') {
+    // if (mode === 'year') {
 
-    }
+    // }
   }, [dateValue, fractions])
-
-  const _addSelection = () => {
-    const selection: Omit<Selection, 'id'> = {
-      fractionId: 1,
-      date: dayjs('11.01.2025').toDate(),
-      deviation: '-',
-      description: 'test test'
-    }
-
-    addSelection({
-      db,
-      selection
-    })
-      .then(r => console.log(r))
-  }
 
   return (
     <Flex vertical gap={20}>
       <Flex gap={5} justify={'space-between'} align={'center'}>
         <PageTitle hintContent='Seljermeler sahypasy'>Seljerme</PageTitle>
-        <button onClick={_addSelection}>test add selection</button>
         <SelectionDate
           date={dateValue}
           onDateChange={setDateValue}

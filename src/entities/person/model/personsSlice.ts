@@ -6,7 +6,7 @@ const personsAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.id - b.id
 })
 
-type State = ReturnType<typeof personsAdapter['getInitialState']> & {
+type State = ReturnType<typeof personsAdapter.getInitialState> & {
   currentPerson?: Person
 }
 
@@ -16,29 +16,31 @@ const personsSlice = createSlice({
   name: 'person',
   initialState,
   reducers: {
-
+    
+    init: (state, { payload }: PayloadAction<Array<Person>>) => {
+      personsAdapter.setAll(state, payload)
+    },
+    
     add: personsAdapter.addOne,
 
     delete: personsAdapter.removeOne,
 
-    init: (state, { payload }: PayloadAction<Array<Person>>) => {
-      personsAdapter.setAll(state, payload)
-    },
+    update: personsAdapter.updateOne,
 
-    updateCurrentPerson: (state, {payload}: PayloadAction<Person | undefined>) => {
+    updateCurrentPerson: (state, { payload }: PayloadAction<Person | undefined>) => {
       state.currentPerson = payload
     },
   }
 })
 
-const selectPersonsState = (state: StoreType) => state.personsReducer 
- 
+const selectPersonsState = (state: StoreType) => state.personsReducer
+
 export const {
   selectAll: selectAllPersons,
   selectById: selectPersonById,
   selectIds: selectPersonIds,
 } = personsAdapter.getSelectors(selectPersonsState)
- 
+
 export const selectCurrentPerson = (state: StoreType) => state.personsReducer.currentPerson
 
 export const personsReducer = personsSlice.reducer
