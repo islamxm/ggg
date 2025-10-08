@@ -15,4 +15,4 @@ export const MONTHS: Record<Months, DefaultListElement> = {
   'Dec': {id: 12, label: 'Dekabr'},
 }
 
-export const MONTHS_ARRAY = Object.entries(MONTHS).map(([k,v]) => v)
+export const MONTHS_ARRAY = Object.entries(MONTHS).map(([_,v]) => v)

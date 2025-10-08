@@ -1,5 +1,5 @@
 import type { DefaultListElement } from "@shared/types/common";
-import type { Deviation, Selection } from "./types";
+import type { Deviation } from "./types";
 import * as colors from '@ant-design/colors'
 
 export const selectionTypes:Record<Deviation, DefaultListElement & {color?: string, borderColor?: string}> = {

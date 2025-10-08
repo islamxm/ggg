@@ -2,7 +2,6 @@ import type { FC, ReactNode } from "react"
 import type { Deviation, Selection } from '../../model/types'
 import classes from './classes.module.scss'
 import { cn } from "@shared/lib"
-import { Typography } from "antd"
 import { selectionTypes } from "@entities/selection/model/consts"
 
 const deviationToClassname = (deviation: Deviation) => {

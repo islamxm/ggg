@@ -2,7 +2,6 @@ import type { Route } from "../types/common"
 import {
   HomeOutlined,
   PushpinOutlined,
-  TrophyOutlined,
   ProductOutlined,
   BarChartOutlined
 } from '@ant-design/icons';
@@ -26,7 +25,6 @@ export const getSelectionOfFraction = (fractionId: string, date?: Date) => {
 export const routesMap:Record<string, Omit<Route, 'path'>> = {
   [getHomePage()]: {id: 1, label: 'Esasy', icon: <HomeOutlined/>},
   [getDutyPage()]: {id: 2, label: 'Tabşyryk', icon: <PushpinOutlined/>},
-  // [getAchievePage()]: {id: 3, label: 'Höweslendirmeler', icon: <TrophyOutlined/>},
   [getSelectionPage()]: {id: 4, label: 'Seljerme', icon: <BarChartOutlined/>},
   [getFractionsPage()]: {id: 5, label: 'Bölümçeler', icon: <ProductOutlined />},
 }

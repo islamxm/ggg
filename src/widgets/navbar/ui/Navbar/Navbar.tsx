@@ -3,7 +3,6 @@ import { routes, routesMap } from '@shared/config/routeConfig'
 import { useLocation, useNavigate } from 'react-router';
 import { Logo } from '../Logo/Logo'
 import { useEffect, useState, type FC } from 'react';
-import { Author } from '../Author/Author';
 
 
 type Props = SiderProps

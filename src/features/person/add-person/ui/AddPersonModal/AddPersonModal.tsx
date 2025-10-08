@@ -22,7 +22,7 @@ import classes from './classes.module.scss'
 import { useDispatch } from "@shared/hooks/useReduxStore"
 import { toast } from 'sonner'
 import { addPerson } from "@entities/person"
-import dayjs, { Dayjs } from 'dayjs'
+import  { Dayjs } from 'dayjs'
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
 
 type Props = ModalFuncProps

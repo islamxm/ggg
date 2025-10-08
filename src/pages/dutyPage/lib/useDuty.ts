@@ -1,17 +1,15 @@
-import { addDuties, getDutyDataKeyFromDate, type Duties, type DutyCreateType } from "@entities/duty"
-import { getFullName, type Person } from "@entities/person"
+import { addDuties, type Duties, type DutyCreateType } from "@entities/duty"
+import { type Person } from "@entities/person"
 import { ERROR_DEFAULT } from "@shared/consts/errorMessages"
-import { useDispatch, useSelector } from "@shared/hooks/useReduxStore"
-import dayjs, { Dayjs } from "dayjs"
+import  { Dayjs } from "dayjs"
 import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { db } from "@shared/config/dbConfig"
 import { useNavigate } from "react-router"
-import type { Duty, DutyItem } from "@entities/duty"
+import type { Duty } from "@entities/duty"
 
 export const useDuty = () => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [dutyList, setDutyList] = useState<Array<DutyCreateType>>([])
   const [date, setDate] = useState<Dayjs>()

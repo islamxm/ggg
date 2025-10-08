@@ -13,7 +13,7 @@ const fractionsAdapter = createEntityAdapter({
 
 export const deleteFractionAndDepData = createAsyncThunk(
   'fractions/deleteCascade',
-  async (fractionId: Fraction['id'], {dispatch, getState}) => {
+  async (fractionId: Fraction['id'], {dispatch}) => {
     const selectionsToDelete = await getSelectionsByFractionId({db, fractionId})
     const selectionsIds = selectionsToDelete.map(selection => selection.id)
     if(selectionsIds.length > 0) {

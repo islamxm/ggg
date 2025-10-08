@@ -138,8 +138,11 @@ export const PersonInfo = () => {
         region: currentPerson?.region,
         positionType: currentPerson?.positionType,
         rank: ranks[currentPerson?.rank ?? 'hcy'],
+        // @ts-ignore
         part: currentPerson?.period?.part,
+        // @ts-ignore
         year: dayjs(currentPerson?.period?.year),
+        // @ts-ignore
         dateOfEnlistment: dayjs(currentPerson?.dateOfEnlistment)
       }}
       onFinish={onSave}

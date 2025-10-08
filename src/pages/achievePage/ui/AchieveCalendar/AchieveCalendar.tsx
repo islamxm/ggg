@@ -15,7 +15,6 @@ export const AchieveCalendar:FC<Props> = ({
   onChange,
   value,
   data,
-  mode,
   onModeChange
 }) => {
   const {cellRender} = useAchieveCalendar(data)

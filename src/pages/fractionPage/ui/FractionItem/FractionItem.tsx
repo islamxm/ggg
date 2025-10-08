@@ -3,7 +3,6 @@ import { Button, Flex, Typography, Card, Tooltip } from "antd"
 import type { FC } from "react"
 import { BarChartOutlined } from '@ant-design/icons'
 import { DeleteFractionButtonWithConfirm } from "@features/fraction/delete-fraction"
-import { useNavigate } from "react-router"
 
 type Props = FractionBase
 
@@ -11,7 +10,6 @@ export const FractionItem: FC<Props> = ({
   id,
   label,
 }) => {
-  const navigate = useNavigate()
 
   return (
     <Card variant={'borderless'} hoverable>

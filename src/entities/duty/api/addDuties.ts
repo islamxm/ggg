@@ -1,4 +1,3 @@
-import { type Person } from "@entities/person"
 import type { DBType } from "@shared/config/dbConfig"
 import type { Duty } from "../model/types"
 

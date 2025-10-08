@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from '@shared/hooks/useReduxStore'
 import { AchieveCalendar } from '../AchieveCalendar/AchieveCalendar'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import { achieveActions, getAchievesByPersonAndDate, type Achieve } from '@entities/achieve'
+import { achieveActions, getAchievesByPersonAndDate } from '@entities/achieve'
 import { AddAchieveButton } from '@features/achieve/add-achieve'
 import { selectAllAchieves } from '@entities/achieve/model/achieveSlice'
 
