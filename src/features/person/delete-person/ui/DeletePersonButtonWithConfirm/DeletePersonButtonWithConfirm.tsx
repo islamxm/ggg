@@ -20,7 +20,8 @@ export const DeletePersonButtonWithConfirm: FC<Props> = ({
   const onDelete = () => {
     setIsLoading(true)
     dispatch(deletePersonAndDepData(personId))
-      .then(() => {
+      .then((r) => {
+        console.log(r)
         toast.success('Harby gullukçy barada ähli maglumat pozuldy')
       })
       .catch(() => toast.error('Ýalňyşlyk ýüze çykdy, ýene-de synanşyp görüň'))

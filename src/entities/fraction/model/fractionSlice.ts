@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction, createEntityAdapter } from "@reduxjs/toolkit";
 import type { Fraction } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteSelections, getSelectionsByFractionId, selectionActions } from "@entities/selection";
+import { deleteSelections, getSelectionsByFractionId } from "@entities/selection";
 import { db } from "@shared/config/dbConfig";
 import { deleteFraction } from "@entities/fraction";
 
@@ -10,21 +10,25 @@ const fractionsAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.id - b.id
 })
 
-
 export const deleteFractionAndDepData = createAsyncThunk(
   'fractions/deleteCascade',
-  async (fractionId: Fraction['id'], {dispatch}) => {
-    const selectionsToDelete = await getSelectionsByFractionId({db, fractionId})
-    const selectionsIds = selectionsToDelete.map(selection => selection.id)
-    if(selectionsIds.length > 0) {
-      await deleteSelections({db, selectionsIds})
+  async (fractionId: Fraction['id'], options) => {
+    try {
+      const selectionsToDelete = await getSelectionsByFractionId({ db, fractionId })
+      const selectionsIds = selectionsToDelete.map(selection => selection.id)
+      if (selectionsIds.length > 0) {
+        await deleteSelections({ db, selectionsIds })
+      }
+      await deleteFraction({ db, fractionId })
+      return fractionId
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log(err)
+        options.rejectWithValue(fractionId)
+      }
     }
-    await deleteFraction({db, fractionId})
-    dispatch(selectionActions.deleteByFraction(fractionId))
-    dispatch(fractionActions.delete(fractionId))
-    return fractionId
   }
-) 
+)
 
 const fractionSlice = createSlice({
   name: 'fraction',
@@ -35,10 +39,15 @@ const fractionSlice = createSlice({
     },
     add: fractionsAdapter.addOne,
     delete: fractionsAdapter.removeOne
+  },
+  extraReducers(builder) {
+    builder.addCase(deleteFractionAndDepData.fulfilled, (state, action) => {
+      action.payload && fractionsAdapter.removeOne(state, action.payload)
+    })
   }
 })
 
-const selectFractionsState = (state: StoreType) => state.fractionReducer 
+const selectFractionsState = (state: StoreType) => state.fractionReducer
 
 export const {
   selectAll: selectAllFractions,

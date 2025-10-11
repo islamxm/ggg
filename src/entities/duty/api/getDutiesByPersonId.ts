@@ -11,7 +11,7 @@ export const getDutiesByPersonId = async ({
   personId,
 }: Options) => {
   return await db.persons
-    .where('personId')
+    .where('id')
     .equals(personId)
     .toArray()
   

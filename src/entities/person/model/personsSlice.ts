@@ -10,20 +10,23 @@ const personsAdapter = createEntityAdapter({
 })
 
 export const deletePersonAndDepData = createAsyncThunk(
-  'persons/deleteCascade',
-  async (personId: Person['id'], {dispatch}) => {
-    const dutiesToDelete = await getDutiesByPersonId({db, personId})
-    const dutyIds = dutiesToDelete.map(duty => duty.id)
-    if(dutyIds.length > 0) {
-      await deleteDuties({db, dutyIds})
+  'person/deleteCascade',
+  async (personId: Person['id'], config) => {
+    try {
+      const dutiesToDelete = await getDutiesByPersonId({ db, personId })
+      const dutyIds = dutiesToDelete.map(duty => duty.id)
+      if (dutyIds.length > 0) {
+        await deleteDuties({ db, dutyIds })
+      }
+      await deletePerson({ db, personId })
+      return personId
+    } catch (err) {
+      if (err instanceof Error) {
+        return config.rejectWithValue(err.message || 'Error')
+      }
     }
-    await deletePerson({db, personId})
-
-    // dispatch(selectionActions.deleteByFraction(fractionId))
-    dispatch(personsActions.delete(personId))
-    return personId
   }
-) 
+)
 
 type State = ReturnType<typeof personsAdapter.getInitialState> & {
   currentPerson?: Person
@@ -35,11 +38,11 @@ const personsSlice = createSlice({
   name: 'person',
   initialState,
   reducers: {
-    
+
     init: (state, { payload }: PayloadAction<Array<Person>>) => {
       personsAdapter.setAll(state, payload)
     },
-    
+
     add: personsAdapter.addOne,
 
     delete: personsAdapter.removeOne,
@@ -48,8 +51,14 @@ const personsSlice = createSlice({
 
     updateCurrentPerson: (state, { payload }: PayloadAction<Person | undefined>) => {
       state.currentPerson = payload
-    },
-  }
+    }
+  },
+  extraReducers(builder) {
+    builder.addCase(deletePersonAndDepData.fulfilled, (state, action) => {
+      action.payload && personsAdapter.removeOne(state, action.payload)
+    });
+  },
+
 })
 
 const selectPersonsState = (state: StoreType) => state.personsReducer

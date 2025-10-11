@@ -1,6 +1,7 @@
 import { createEntityAdapter, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Selection, SelectionsOfFraction } from "./types";
 import type { Fraction } from "@entities/fraction/@x/selection";
+import { deleteFractionAndDepData } from "@entities/fraction/@x/selection";
 
 const selectionsAdapter = createEntityAdapter({
   selectId: (selection: Selection) => selection.id,
@@ -23,8 +24,8 @@ const selectionSlice = createSlice({
   name: 'selection',
   initialState,
   reducers: {
-    
-    update: (state, {payload}: PayloadAction<Array<Selection>>) => {
+
+    update: (state, { payload }: PayloadAction<Array<Selection>>) => {
       selectionsAdapter.setAll(state, payload)
     },
 
@@ -32,26 +33,34 @@ const selectionSlice = createSlice({
 
     delete: selectionsAdapter.removeOne,
 
-    deleteByFraction: (state, {payload}: PayloadAction<Fraction['id']>) => {
+    deleteByFraction: (state, { payload }: PayloadAction<Fraction['id']>) => {
       const idsToDelete = state.ids.filter(id => state.entities[id]!.fractionId === payload)
       selectionsAdapter.removeMany(state, idsToDelete)
     },
 
-    updateCurrentSelection: (state, {payload}: PayloadAction<Array<SelectionsOfFraction>>) => {
+    updateCurrentSelection: (state, { payload }: PayloadAction<Array<SelectionsOfFraction>>) => {
       state.currentSelection = payload
     },
 
-    addSelectionToCurrentSelection: (state, {payload}: PayloadAction<Selection>) => {
+    addSelectionToCurrentSelection: (state, { payload }: PayloadAction<Selection>) => {
       const indexOfFraction = state.currentSelection.findIndex(s => s.fractionId === payload.fractionId)
-      if(indexOfFraction !== -1) {
+      if (indexOfFraction !== -1) {
         state.currentSelection[indexOfFraction].selections.push(payload)
       }
     },
 
-    updateSelectionDetailsDate: (state, {payload}: PayloadAction<Date>) => { 
+    updateSelectionDetailsDate: (state, { payload }: PayloadAction<Date>) => {
       state.selectionDetailsDate = payload
     }
-  }
+  },
+  extraReducers(builder) {
+    builder.addCase(deleteFractionAndDepData.fulfilled, (state, action) => {
+      if (action.payload) {
+        const idsToDelete = state.ids.filter(id => state.entities[id]!.fractionId === action.payload)
+        selectionsAdapter.removeMany(state, idsToDelete)
+      }
+    })
+  },
 })
 
 const selectSelectionsState = (state: StoreType) => state.selectionReducer
