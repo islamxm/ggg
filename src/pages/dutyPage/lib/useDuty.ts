@@ -73,7 +73,7 @@ export const useDuty = () => {
 
   const _onPaste = (e: KeyboardEvent) => {
     if (!copied) return
-    if (e.ctrlKey && e.key === 'v') {
+    if (e.ctrlKey && e.keyCode === 86) {
       e.preventDefault()
       setDutyList(s => ([...s, { ...copied, id: nanoid() }]))
       toast.info('Göçürilen tabşyryk goýuldy')

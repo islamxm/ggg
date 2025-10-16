@@ -1,6 +1,7 @@
 import { useState, type FC, type PropsWithChildren } from 'react';
-import { Button, Layout, theme } from 'antd';
+import { Button, Layout, theme, Flex } from 'antd';
 import { Navbar } from '@widgets/navbar';
+import { PageNavigation } from '@features/page-navigation';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
@@ -8,6 +9,7 @@ import {
 import classes from './classes.module.scss'
 import { useInitData } from '../../hooks/useInitData';
 import { ToastContainer } from '@shared/ui/ToastContainer';
+import { DbImportExport } from '@features/db-import-export';
 
 const { Header, Content } = Layout;
 
@@ -25,17 +27,24 @@ export const PageLayout: FC<PropsWithChildren> = ({
       <ToastContainer />
       <Navbar collapsed={collapsed} trigger={null} className={classes.sider} />
       <Layout>
-        <Header className={classes.header} style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
+        <Header className={classes.header} style={{ padding: '0 15px', background: colorBgContainer }}>
+          <Flex gap={5} align={'center'} justify={'space-between'}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Flex align={'center'} gap={10}>
+              <PageNavigation />
+              <DbImportExport />
+            </Flex>
+          </Flex>
+
         </Header>
         <Content style={{
           margin: '24px 16px',

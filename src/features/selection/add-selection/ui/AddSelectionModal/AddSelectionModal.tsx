@@ -128,6 +128,7 @@ export const AddSelectionModal: FC<Props> = ({
             name={'date'}
           >
             <DatePicker
+              format={'DD.MM.YYYY'}
               style={{ width: '100%' }}
               placeholder="Senesini saýla"
             />

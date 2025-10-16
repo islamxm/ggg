@@ -4,7 +4,7 @@ import { personsActions, selectCurrentPerson, updatePerson, type BG_Person, type
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from '@shared/hooks/useReduxStore'
 import { regions } from '@shared/consts/regions'
-import { ranks, ranksArray } from '@shared/consts/ranks'
+import { ranksArray } from '@shared/consts/ranks'
 import { DeletePersonButtonWithModal } from '@features/person/delete-person/ui/DeletePersonButtonWithModal/DeletePersonButtonWithModal'
 import dayjs, { Dayjs } from 'dayjs'
 import { PersonCbInfo } from '../PersonCbInfo/PersonCbInfo'
@@ -65,7 +65,6 @@ export const PersonInfo = () => {
     const isBgDataEnough = dateOfEnlistment
 
     setIsLoading(true)
-    console.log(positionType)
     if (data.positionType === 'cb' && isCbDataEnough) {
       const cbPerson: Omit<CB_Person, 'id'> = {
         ...rest,
@@ -137,13 +136,18 @@ export const PersonInfo = () => {
         dateOfBirth: dayjs(currentPerson?.dateOfBirth),
         region: currentPerson?.region,
         positionType: currentPerson?.positionType,
-        rank: ranks[currentPerson?.rank ?? 'hcy'],
+        // rank: ranks[currentPerson?.rank ?? 'hcy'],
+        rank: currentPerson?.rank ?? 'hcy',
         // @ts-ignore
         part: currentPerson?.period?.part,
         // @ts-ignore
         year: dayjs(currentPerson?.period?.year),
         // @ts-ignore
-        dateOfEnlistment: dayjs(currentPerson?.dateOfEnlistment)
+        dateOfEnlistment: dayjs(currentPerson?.dateOfEnlistment),
+        // @ts-ignore
+        adress: currentPerson?.adress,
+        // @ts-ignore
+        phone: currentPerson?.phone
       }}
       onFinish={onSave}
     >

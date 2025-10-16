@@ -18,6 +18,7 @@ export const BgPersonForm: FC = () => {
         {...requiredField}
       >
         <DatePicker
+          format={'DD.MM.YYYY'}
           style={{ width: '100%' }}
           placeholder='Haçandan bäri harby gullukda'
         />

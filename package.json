@@ -1,21 +1,24 @@
 {
-  "name": "myapp",
+  "name": "ggg",
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "main": "dist/main-electron.mjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "electron:build": "npm install && npm run build electron-builder --windows",
-    "electron:build-in-linux": "docker run --rm -ti -v \"$(pwd):/project\" --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_') --env ELECTRON_CACHE=\"/root/.cache/electron\" --env ELECTRON_BUILDER_CACHE=\"/root/.cache/electron-builder\" electronuserland/builder:wine /bin/bash -c \"npm install && npm run build && npm run electron-builder\""
+    "electron:build": "electron-builder build --windows",
+    "electron:build_in_linux": "docker run --rm -ti -v \"$(pwd):/project\" --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_') --env ELECTRON_CACHE=\"/root/.cache/electron\" --env ELECTRON_BUILDER_CACHE=\"/root/.cache/electron-builder\" electronuserland/builder:wine /bin/bash -c \"npm run electron:build\""
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
     "antd": "^5.27.4",
     "dexie": "^4.2.0",
+    "dexie-export-import": "^4.1.4",
     "dexie-react-hooks": "^4.2.0",
+    "downloadjs": "^1.4.7",
     "electron-serve": "^3.0.0",
     "idb": "^8.0.3",
     "nanoid": "^5.1.6",
@@ -28,6 +31,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@types/downloadjs": "^1.4.6",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",

@@ -1,7 +1,6 @@
 import type { FractionBase } from "@entities/fraction/model/types"
-import { Button, Flex, Typography, Card, Tooltip } from "antd"
+import { Flex, Typography, Card } from "antd"
 import type { FC } from "react"
-import { BarChartOutlined } from '@ant-design/icons'
 import { DeleteFractionButtonWithConfirm } from "@features/fraction/delete-fraction"
 
 type Props = FractionBase
@@ -16,7 +15,7 @@ export const FractionItem: FC<Props> = ({
       <Flex justify={'space-between'}>
         <Typography.Title level={4}>{label}</Typography.Title>
         <Flex gap={5}>
-          <Tooltip
+          {/* <Tooltip
             title='Seljermesi'
             >
             <Button
@@ -26,7 +25,7 @@ export const FractionItem: FC<Props> = ({
               color={'magenta'}
               icon={<BarChartOutlined />}
             />
-          </Tooltip>
+          </Tooltip> */}
           <DeleteFractionButtonWithConfirm fractionId={id}/>
         </Flex>
       </Flex>

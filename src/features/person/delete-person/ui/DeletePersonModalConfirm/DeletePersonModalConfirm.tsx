@@ -57,7 +57,7 @@ export const DeletePersonModalConfirm: FC<Props> = ({
     >
       <Flex align={'center'} vertical gap={20}>
         <Typography.Text>
-          <b>{`${ranks[currentPerson.rank].label} ${currentPerson.name.firstName[0]}.${currentPerson.name.lastName} `}</b>
+          <b>{`${ranks[currentPerson.rank]?.label} ${currentPerson.name.firstName[0]}.${currentPerson.name.lastName} `}</b>
           baradaky ähli maglumatlar, ýagny:
           <ul style={{ margin: 0 }}>
             <li>harby gullukçynyň şahsy maglumaty</li>

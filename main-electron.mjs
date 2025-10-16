@@ -6,8 +6,9 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 720,
-    minWidth: 900, // Устанавливаем разумный минимум
+    minWidth: 900,
     minHeight: 600,
+    fullscreen: true,
     title: 'Goşun Gulluk',
     webPreferences: {
       contextIsolation: true,

@@ -23,13 +23,5 @@ export const useInitData = () => {
         toast.success('Bölümçeleriň bazasy ýüklendi')
         dispatch(fractionActions.init(res))
       })
-    // getAllFractions({ db })
-    //   .then(res => {
-    //     toast.success('Bölümçeleriň bazasy ýüklendi')
-    //     dispatch(fractionActions.update(res))
-    //   })
-    //   .catch(defaultErrorNotification)
-
-
   }, [])
 }
