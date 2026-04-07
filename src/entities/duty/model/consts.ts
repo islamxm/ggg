@@ -1,178 +1,216 @@
 import type { DefaultListElement } from "@shared/types/common";
 import type { Duties } from "./types";
-import * as colors from '@ant-design/colors'
+import * as colors from "@ant-design/colors";
 
 export const duties: Record<Duties, DefaultListElement & { color?: string }> = {
-  'hb_nobatcy': {
+  hb_nobatcy: {
     id: 1,
-    label: 'Harby bölüm boýunça nobatçy',
-    color: colors.red[4]
+    label: "Harby bölüm boýunça nobatçy",
+    color: colors.red[4],
   },
-  'hb_komekci': {
+  hb_komekci: {
     id: 2,
-    label: 'Harby bölüm boýunça nobatçynyň kömekçisi',
-    color: colors.red[4]
+    label: "Harby bölüm boýunça nobatçynyň kömekçisi",
+    color: colors.red[4],
   },
-  'batalyon_nobatcy': {
+  batalyon_nobatcy: {
     id: 3,
-    label: 'Batalýon (diwizion) boýunça nobatçy',
-    color: colors.red[4]
+    label: "Batalýon (diwizion) boýunça nobatçy",
+    color: colors.red[4],
   },
-  'batalyon_komekci': {
+  batalyon_komekci: {
     id: 4,
-    label: 'Batalýon (diwizion) boýunça nobatçynyň kömekçisi',
-    color: colors.red[4]
+    label: "Batalýon (diwizion) boýunça nobatçynyň kömekçisi",
+    color: colors.red[4],
   },
-  'operator': {
+  operator: {
     id: 5,
-    label: 'Operator',
-    color: colors.gray[4]
+    label: "Operator",
+    color: colors.gray[4],
   },
-  'cp_nobatcy': {
+  cp_nobatcy: {
     id: 6,
-    label: 'Çapar (nobatçy)',
-    color: colors.volcano[4]
+    label: "Çapar (nobatçy)",
+    color: colors.volcano[4],
   },
-  'cp_gatnadyjy': {
+  cp_gatnadyjy: {
     id: 7,
-    label: 'Çapar (gatnadyjy)',
-    color: colors.volcano[4]
+    label: "Çapar (gatnadyjy)",
+    color: colors.volcano[4],
   },
-  'bgn_nobatcy': {
+  bgn_nobatcy: {
     id: 8,
-    label: 'BGN boýunça nobatçy',
-    color: colors.orange[4]
+    label: "BGN boýunça nobatçy",
+    color: colors.orange[4],
   },
-  'bgn_komekci': {
+  bgn_komekci: {
     id: 9,
-    label: 'BGN boýunça nobatçynyň kömekçisi',
-    color: colors.orange[4]
+    label: "BGN boýunça nobatçynyň kömekçisi",
+    color: colors.orange[4],
   },
-  'rota_nobatcy': {
+  rota_nobatcy: {
     id: 10,
-    label: 'Rota (batareýa) boýunça nobatçy',
-    color: colors.green[4]
+    label: "Rota (batareýa) boýunça nobatçy",
+    color: colors.green[4],
   },
-  'rota_gundeci': {
+  rota_gundeci: {
     id: 11,
-    label: 'Rota (batareýa) boýunça gündeçi',
-    color: colors.green[4]
+    label: "Rota (batareýa) boýunça gündeçi",
+    color: colors.green[4],
   },
-  'nn_isci': {
+  nn_isci: {
     id: 12,
-    label: 'Naharhana işçisi',
-    color: colors.yellow[4]
+    label: "Naharhana işçisi",
+    color: colors.yellow[4],
   },
-  'nn_nobatcy': {
+  nn_nobatcy: {
     id: 13,
-    label: 'Naharhana boýunça nobatçy',
-    color: colors.yellow[4]
+    label: "Naharhana boýunça nobatçy",
+    color: colors.yellow[4],
   },
-  'p_nobatcy': {
+  p_nobatcy: {
     id: 14,
-    label: 'Park boýunça nobatçy',
-    color: colors.cyan[4]
+    label: "Park boýunça nobatçy",
+    color: colors.cyan[4],
   },
-  'p_gundeci': {
+  p_gundeci: {
     id: 15,
-    label: 'Park boýunça gündeçi',
-    color: colors.cyan[4]
+    label: "Park boýunça gündeçi",
+    color: colors.cyan[4],
   },
-  'cekiji': {
+  cekiji: {
     id: 16,
-    label: 'Nobatçy çekiji',
-    color: colors.cyan[4]
+    label: "Nobatçy çekiji",
+    color: colors.cyan[4],
   },
-  'ips': {
+  ips: {
     id: 17,
-    label: 'Içerki patrul serkerdesi',
-    color: colors.lime[4]
+    label: "Içerki patrul serkerdesi",
+    color: colors.lime[4],
   },
-  'ip': {
+  ip: {
     id: 18,
-    label: 'Içerki patrul',
-    color: colors.lime[4]
+    label: "Içerki patrul",
+    color: colors.lime[4],
   },
-  'gps': {
+  gps: {
     id: 19,
-    label: 'Garnizon patrul serkerdesi',
-    color: colors.lime[4]
+    label: "Garnizon patrul serkerdesi",
+    color: colors.lime[4],
   },
-  'gp': {
+  gp: {
     id: 20,
-    label: 'Garnizon patrul',
-    color: colors.lime[4]
+    label: "Garnizon patrul",
+    color: colors.lime[4],
   },
-  'ig_serkerde': {
+  ig_serkerde: {
     id: 21,
-    label: 'Içerki garawul serkerdesi',
-    color: colors.magenta[4]
+    label: "Içerki garawul serkerdesi",
+    color: colors.magenta[4],
   },
-  'ig_komekci': {
+  ig_komekci: {
     id: 22,
-    label: 'Içerki garawul serkerdesiniň kömekçisi',
-    color: colors.magenta[4]
+    label: "Içerki garawul serkerdesiniň kömekçisi",
+    color: colors.magenta[4],
   },
-  'ig_calshyryjy': {
+  ig_calshyryjy: {
     id: 23,
-    label: 'Içerki garawul çalşyryjy',
-    color: colors.magenta[4]
+    label: "Içerki garawul çalşyryjy",
+    color: colors.magenta[4],
   },
-  'ig_sakcy': {
+  ig_sakcy: {
     id: 24,
-    label: 'Içerki garawul sakçy',
-    color: colors.magenta[4]
+    label: "Içerki garawul sakçy",
+    color: colors.magenta[4],
   },
-  'gg_serkerde': {
+  gg_serkerde: {
     id: 25,
-    label: 'Garnizon garawul serkerdesi',
-    color: colors.purple[4]
+    label: "Garnizon garawul serkerdesi",
+    color: colors.purple[4],
   },
-  'gg_komekci': {
+  gg_komekci: {
     id: 26,
-    label: 'Garnizon garawul serkerdesiniň kömekçisi',
-    color: colors.purple[4]
+    label: "Garnizon garawul serkerdesiniň kömekçisi",
+    color: colors.purple[4],
   },
-  'gg_calshyryjy': {
+  gg_calshyryjy: {
     id: 27,
-    label: 'Garnizon garawul çalşyryjysy',
-    color: colors.purple[4]
+    label: "Garnizon garawul çalşyryjysy",
+    color: colors.purple[4],
   },
-  'gg_dc': {
+  gg_dc: {
     id: 28,
-    label: 'Garnizon garawul daşyna çykaryjy',
-    color: colors.purple[4]
+    label: "Garnizon garawul daşyna çykaryjy",
+    color: colors.purple[4],
   },
-  'gg_sakcy': {
+  gg_sakcy: {
     id: 29,
-    label: 'Garnizon garawul sakçy',
-    color: colors.purple[4]
+    label: "Garnizon garawul sakçy",
+    color: colors.purple[4],
   },
-  'nb_serkerde': {
+  nb_serkerde: {
     id: 30,
-    label: 'Nobatçy bölümçäniň serkerdesi',
-    color: colors.gold[4]
+    label: "Nobatçy bölümçäniň serkerdesi",
+    color: colors.gold[4],
   },
-  'nb': {
+  nb: {
     id: 31,
-    label: 'Nobatçy bölümçe',
-    color: colors.gold[4]
+    label: "Nobatçy bölümçe",
+    color: colors.gold[4],
   },
-  'yt': {
+  yt: {
     id: 32,
-    label: 'Ýangyn topary',
-    color: colors.volcano[4]
+    label: "Ýangyn topary",
+    color: colors.volcano[4],
   },
-  'na': {
+  na: {
     id: 33,
-    label: 'Nobatçy awtoulag',
-    color: colors.cyan[4]
+    label: "Nobatçy awtoulag",
+    color: colors.cyan[4],
   },
-  'g_gozegci': {
+  g_gozegci: {
     id: 34,
-    label: 'Garnizon gözegçi',
-    color: colors.blue[4]
-  }
-}
+    label: "Garnizon gözegçi",
+    color: colors.blue[4],
+  },
+  nl: {
+    id: 35,
+    label: "Nobatçy lukman",
+    color: colors.blue[4],
+  },
+  nash: {
+    id: 36,
+    label: "Nobatçy aşpez",
+    color: colors.blue[4],
+  },
+  gg_n_k: {
+    id: 37,
+    label: "Garnizon garawullar boýunça nobatçynyň kömekçisi",
+    color: colors.blue[4],
+  },
+  gg_n: {
+    id: 38,
+    label: "Garnizon garawullar boýunça nobatçy",
+    color: colors.blue[4],
+  },
+  hb_gozegci: {
+    id: 39,
+    label: "Harby bölümiň gözegçisi",
+    color: colors.blue[4],
+  },
+  hb_gozegci_komekci: {
+    id: 40,
+    label: "Harby bölümiň gözegçisiniň kömekçisi",
+    color: colors.blue[4],
+  },
+  dp: {
+    id: 41,
+    label: "Harby bölümiň daşarky patruly",
+    color: colors.blue[4],
+  },
+};
 
-export const dutiesArray = Object.entries(duties).map(([_, value]) => ({ ...value, value: _ }))
+export const dutiesArray = Object.entries(duties).map(([_, value]) => ({
+  ...value,
+  value: _,
+}));

@@ -1,7 +1,7 @@
 {
   "name": "ggg",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "dist/main-electron.mjs",
   "scripts": {
@@ -36,6 +36,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.1",
     "electron": "^38.2.2",
     "electron-builder": "^26.0.12",
     "eslint": "^9.33.0",
@@ -45,7 +46,8 @@
     "sass": "^1.93.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "wait-on": "^9.0.3"
   },
   "build": {
     "appId": "ggg",
